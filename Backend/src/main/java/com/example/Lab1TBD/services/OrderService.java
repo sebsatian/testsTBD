@@ -16,4 +16,8 @@ public class OrderService {
     public List<OrderEntity> getOrdersByClientId(long clientId) {
         return orderRepository.findByClientId(clientId);
     }
+
+    public OrderEntity getOrdersByIdOrder(long order_id){
+        return orderRepository.findByOrderId(order_id);
+    }
 }
