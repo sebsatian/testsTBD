@@ -80,13 +80,10 @@ export default {
         // Llamada al servicio de registro
         const response = await registerService.register(this.name, this.email, this.password);
         console.log('Usuario registrado:', response);
-        alert('Usuario registrado con éxito. Por favor completa tu registro.');
+        alert('Usuario registrado con éxito. Inicia sesión para continuar.');
 
-        // Guardar el clientId en el localStorage para usarlo en la siguiente vista
-        localStorage.setItem('clientId', response.clientId);
-
-        // Redirigir al usuario a la página de completar registro
-        this.$router.push('/complete-register'); // Redirige al componente CompleteRegister
+        // Redirigir al usuario a la página principal
+        this.$router.push('/login'); // Redirige al componente MainPage
       } catch (error) {
         console.error('Error al registrar el usuario:', error);
         alert('Error al registrar el usuario');

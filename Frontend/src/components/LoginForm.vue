@@ -3,13 +3,13 @@
     <h2 class="text-center mb-4">Iniciar Sesión</h2>
     <form @submit.prevent="login" class="login-form">
       <div class="mb-3">
-        <label for="email" class="form-label">Nombre de usuario</label>
+        <label for="email" class="form-label">Correo Electrónicco</label>
         <input 
-          type="text" 
+          type="email" 
           class="form-control" 
           id="email" 
           v-model="email" 
-          placeholder="Ingresa tu nombre de usuario" 
+          placeholder="Ingresa tu correo electrónico" 
           required
         >
       </div>
@@ -32,14 +32,14 @@
 </template>
 
 <script>
-import { loginService } from '@/services/client.service';
+import { loginService } from "@/services/client.service";
 
 export default {
-  name: 'LoginForm',
+  name: "LoginForm",
   data() {
     return {
-      email: '',
-      password: ''
+      email: "",
+      password: ""
     };
   },
   methods: {
@@ -49,14 +49,14 @@ export default {
         const response = await loginService.login(this.email, this.password);
 
         // Si la respuesta es exitosa, redirigir al usuario
-        console.log('Sesión Iniciada:', response);
-        alert('Sesión Iniciada');
+        console.log("Sesión Iniciada:", response);
+        alert("Sesión Iniciada");
 
         // Redirigir a la página de usuario
-        this.$router.push('/clientpage'); // Redirige a /clientpage (puedes cambiar la ruta según tu estructura)
+        this.$router.push("/clientpage"); // Redirige a /clientpage
       } catch (error) {
-        console.error('Error al iniciar sesión:', error);
-        alert('Error al iniciar sesión');
+        console.error("Error al iniciar sesión:", error);
+        alert("Error al iniciar sesión. Por favor, verifica tus credenciales.");
       }
     }
   }
