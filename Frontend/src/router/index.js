@@ -9,6 +9,7 @@ import CreateTasks from '../components/CreateTasks.vue';
 import TaskDetails from '../components/TaskDetails.vue'; // Importa el componente de detalles de tarea
 import EditTask from '../components/EditTask.vue'; // Importa el componente de edición de tarea
 import CompleteRegister from '../components/CompleteRegister.vue';
+import ViewProducts from '../components/ViewProducts.vue';
 
 const routes = [
   {
@@ -64,6 +65,11 @@ const routes = [
     path: '/complete-register',
     name: 'CompleteRegister',
     component: CompleteRegister,
+  },
+  {
+    path: "/products",
+    name: "ViewProducts",
+    component: ViewProducts,
   },
   
 

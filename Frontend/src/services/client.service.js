@@ -21,10 +21,10 @@ class RegisterService {
       return response.data;
     } catch (error) {
       console.error("Error al registrar el usuario:", error);
-      throw error; // Esto permitirá manejar el error desde donde se llama este método
+      throw error;
     }
   }
-  
+
   async completeRegistration(clientId, address, phoneNumber) {
     try {
       const response = await axios.put(
@@ -49,28 +49,28 @@ class RegisterService {
 }
 
 class LoginService {
-  async login(clientname, password) {
-    // Crear el objeto de datos a enviar
-    const data = { clientname, password };
+  async login(email, password) {
+    const data = { email, password };
 
-    // Imprimir el JSON antes de enviarlo
     console.log("Datos enviados al backend:", JSON.stringify(data, null, 2));
 
     try {
-      // Realizar la solicitud al backend
       const response = await axios.post(`${API_URL}/auth/login`, data);
 
-      // Extraer token y clientId desde la respuesta
-      const { token, clientId } = response.data;
+      // Extraer token y client_id desde la respuesta
+      const { token, client_id } = response.data;
 
-      // Guardar en localStorage
+      if (!client_id) {
+        throw new Error("El backend no devolvió un client_id.");
+      }
+
+      // Guardar token y client_id en localStorage
       localStorage.setItem("jwtToken", token);
-      localStorage.setItem("clientId", clientId);
+      localStorage.setItem("clientId", client_id.toString());
 
-      // Retornar los datos si se necesitan en el componente
-      return { token, clientId };
+      return { token, client_id };
     } catch (error) {
-      console.error("Error al iniciar sesión:", error);
+      console.error("Error al iniciar sesión:", error.response?.data || error.message);
       throw error;
     }
   }
@@ -87,26 +87,25 @@ class LoginService {
           },
         }
       );
-      return response.data; // Si el token es válido, devuelve los datos
+      return response.data;
     } catch (error) {
-      console.error("Error al verificar el token:", error);
+      console.error("Error al verificar el token:", error.response?.data || error.message);
       throw error;
     }
   }
 }
 
-// Función independiente para validar la sesión
 async function validateSession() {
   const loginService = new LoginService();
   try {
-    await loginService.checkToken(); // Llama al método para validar el token
-    return true; // Si el token es válido, continúa
+    await loginService.checkToken();
+    return true;
   } catch (error) {
     alert("Tu sesión ha expirado. Por favor, inicia sesión nuevamente.");
-    localStorage.removeItem("jwtToken"); // Limpia el token si es inválido
-    localStorage.removeItem("clientId"); // Limpia el clientId si es inválido
-    window.location.href = "/"; // Redirige a la página principal
-    return false; // Bloquea el acceso
+    localStorage.removeItem("jwtToken");
+    localStorage.removeItem("userId");
+    window.location.href = "/";
+    return false;
   }
 }
 

@@ -17,7 +17,7 @@ public class ProductService {
         return productRepository.findAllProducts();
     }
 
-    public ProductEntity getProductById(long id) {
+    public ProductEntity getProductById(Long id) {
         return productRepository.findProductById(id);
     }
 
@@ -29,7 +29,7 @@ public class ProductService {
         return productRepository.findProductsByStatus(status);
     }
 
-    public List<ProductEntity> getProductsByCategoryId(long categoryId) {
+    public List<ProductEntity> getProductsByCategoryId(Long categoryId) {
         return productRepository.findProductsByCategoryId(categoryId);
     }
 
@@ -53,7 +53,7 @@ public class ProductService {
         productRepository.updateProduct(product);
     }
 
-    public void deleteProduct(long id) {
+    public void deleteProduct(Long id) {
         productRepository.deleteProductById(id);
     }
 }

@@ -23,7 +23,7 @@ public class OrderController {
 
     // consigue una orden a partir de su id asociada
     @GetMapping("/search/id/{id}")
-    public ResponseEntity<OrderEntity> getOrdersByIdOrder(@PathVariable long id){
+    public ResponseEntity<OrderEntity> getOrdersByIdOrder(@PathVariable Long id){
         OrderEntity foundOrder = orderService.getOrdersByOrderId(id);
         if (foundOrder == null){
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
@@ -39,7 +39,7 @@ public class OrderController {
 
     // consigue las ordenes de un cliente a partir del id de ese cliente
     @GetMapping("/search/clientId/{id}")
-    public ResponseEntity<List<OrderEntity>> getOrdersByClientId(@PathVariable long id) {
+    public ResponseEntity<List<OrderEntity>> getOrdersByClientId(@PathVariable Long id) {
         return ResponseEntity.ok(orderService.getOrdersByClientId(id));
     }
 
@@ -56,7 +56,7 @@ public class OrderController {
     }
 
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<Void> deleteOrder(@PathVariable long id) {
+    public ResponseEntity<Void> deleteOrder(@PathVariable Long id) {
         OrderEntity existingOrder = orderService.getOrdersByOrderId(id);
         if (existingOrder == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();

@@ -15,7 +15,7 @@ public class ProductRepositoryImp implements ProductRepository {
 
     // Buscar producto por ID
     @Override
-    public ProductEntity findProductById(long product_id) {
+    public ProductEntity findProductById(Long product_id) {
         try (org.sql2o.Connection con = sql2o.open()) {
             return con.createQuery("SELECT * FROM product WHERE product_id = :product_id")
                     .addParameter("product_id", product_id)
@@ -102,7 +102,7 @@ public class ProductRepositoryImp implements ProductRepository {
 
     // Buscar productos por categoría
     @Override
-    public List<ProductEntity> findProductsByCategoryId(long category_id) {
+    public List<ProductEntity> findProductsByCategoryId(Long category_id) {
         try (org.sql2o.Connection con = sql2o.open()) {
             return con.createQuery("SELECT * FROM product WHERE category_id = :category_id")
                     .addParameter("category_id", category_id)
@@ -126,7 +126,6 @@ public class ProductRepositoryImp implements ProductRepository {
                     .addParameter("product_status", product.getProduct_status())
                     .addParameter("category_id", product.getCategory_id())
                     .executeUpdate();
-            con.commit();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -148,7 +147,6 @@ public class ProductRepositoryImp implements ProductRepository {
                     .addParameter("category_id", product.getCategory_id())
                     .addParameter("product_id", product.getProduct_id())
                     .executeUpdate();
-            con.commit();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -156,12 +154,11 @@ public class ProductRepositoryImp implements ProductRepository {
 
     // Borrar un producto por ID
     @Override
-    public void deleteProductById(long product_id) {
+    public void deleteProductById(Long product_id) {
         try (org.sql2o.Connection con = sql2o.beginTransaction()) {
             con.createQuery("DELETE FROM product WHERE product_id = :product_id")
                     .addParameter("product_id", product_id)
                     .executeUpdate();
-            con.commit();
         } catch (Exception e) {
             // Registrar el error en lugar de solo imprimir
             throw new RuntimeException("Error al eliminar el producto con ID " + product_id, e);

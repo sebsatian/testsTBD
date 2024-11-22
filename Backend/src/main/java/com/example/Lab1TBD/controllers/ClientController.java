@@ -18,7 +18,7 @@ public class ClientController {
 
     @PutMapping("/complete-registration/{id}")
     public ResponseEntity<ClientEntity> completeRegistration(
-            @PathVariable long id,
+            @PathVariable Long id,
             @RequestParam String address,
             @RequestParam String phoneNumber) {
         // Llamar al servicio para completar el registro

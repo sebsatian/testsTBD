@@ -18,7 +18,7 @@ public class CategoryController {
 
     // Obtener una categoría por ID
     @GetMapping("/{id}")
-    public ResponseEntity<CategoryEntity> getCategoryById(@PathVariable long id) {
+    public ResponseEntity<CategoryEntity> getCategoryById(@PathVariable Long id) {
         try {
             CategoryEntity category = categoryService.getCategoryById(id);
             if (category == null) {
@@ -64,7 +64,7 @@ public class CategoryController {
 
     // Actualizar una categoría por ID
     @PutMapping("/update/{id}")
-    public ResponseEntity<String> updateCategory(@PathVariable long id, @RequestBody CategoryEntity category) {
+    public ResponseEntity<String> updateCategory(@PathVariable Long id, @RequestBody CategoryEntity category) {
         try {
             CategoryEntity existingCategory = categoryService.getCategoryById(id);
             if (existingCategory == null) {
@@ -82,7 +82,7 @@ public class CategoryController {
 
     // Eliminar una categoría por ID
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<String> deleteCategory(@PathVariable long id) {
+    public ResponseEntity<String> deleteCategory(@PathVariable Long id) {
         try {
             CategoryEntity existingCategory = categoryService.getCategoryById(id);
             if (existingCategory == null) {

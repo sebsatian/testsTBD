@@ -31,7 +31,7 @@
 </template>
 
 <script>
-import TaskService from "@/services/tasks.service";
+import TaskService from "@/services/order.service";
 
 export default {
   name: "ViewNotifications",

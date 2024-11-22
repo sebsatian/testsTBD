@@ -3,7 +3,7 @@
     <h2>Bienvenido.</h2>
     <p>Selecciona una acción:</p>
     <!-- Botones -->
-    <button @click="handleButton1Click" class="btn btn-primary">Ver Tareas</button>
+    <button @click="handleViewProductsClick" class="btn btn-primary">Ver Productos</button>
     <button @click="handleButton2Click" class="btn btn-primary">Notificaciones</button>
     <button @click="handleLogout" class="btn btn-danger">Cerrar Sesión</button>
   </div>
@@ -13,9 +13,9 @@
 export default {
   name: 'ClientPage',
   methods: {
-    // Navega a la página de tareas
-    handleButton1Click() {
-      this.$router.push('/clientpage/tasks');
+    // Navega a la página de productos
+    handleViewProductsClick() {
+      this.$router.push('/products');
     },
     // Navega a la página de notificaciones
     handleButton2Click() {

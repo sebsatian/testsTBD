@@ -11,7 +11,7 @@ public class CategoryService {
     @Autowired
     private CategoryRepository categoryRepository;
 
-    public CategoryEntity getCategoryById(long id) {
+    public CategoryEntity getCategoryById(Long id) {
         return categoryRepository.findCategoryById(id);
     }
 
@@ -27,7 +27,7 @@ public class CategoryService {
         categoryRepository.updateCategory(category);
     }
 
-    public void deleteCategory(long id) {
+    public void deleteCategory(Long id) {
         categoryRepository.deleteCategoryById(id);
     }
 }

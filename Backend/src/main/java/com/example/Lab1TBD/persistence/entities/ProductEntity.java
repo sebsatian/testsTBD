@@ -8,7 +8,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ProductEntity {
-    private long product_id; //identificador unico del producto
+    private Long product_id; //identificador unico del producto
     private String product_name;  //nombre del producto
     private String description; //descripcion del producto
     private Float price;   //precio del producto

@@ -14,7 +14,7 @@ public class OrderRepositoryImp implements OrderRepository {
     private Sql2o sql2o;
 
     @Override
-    public OrderEntity findByOrderId(long order_id) {
+    public OrderEntity findByOrderId(Long order_id) {
         try (org.sql2o.Connection con = sql2o.open()) {
             return con.createQuery("SELECT * FROM orders WHERE order_id = :order_id")
                     .addParameter("order_id", order_id)
@@ -37,7 +37,7 @@ public class OrderRepositoryImp implements OrderRepository {
     }
 
     @Override
-    public List<OrderEntity> findByClientId(long clientId) {
+    public List<OrderEntity> findByClientId(Long clientId) {
         try (org.sql2o.Connection con = sql2o.open()) {
             return con.createQuery("SELECT * FROM orders WHERE client_id = :client_id")
                     .addParameter("client_id", clientId)
@@ -70,7 +70,6 @@ public class OrderRepositoryImp implements OrderRepository {
                     .addParameter("total", order.getTotal())
                     .addParameter("client_id", order.getClient_id())
                     .executeUpdate();
-            con.commit();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -88,19 +87,17 @@ public class OrderRepositoryImp implements OrderRepository {
                     .addParameter("client_id", order.getClient_id())
                     .addParameter("order_id", order.getOrder_id())
                     .executeUpdate();
-            con.commit();
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
     @Override
-    public void deleteOrderById(long order_id) {
+    public void deleteOrderById(Long order_id) {
         try (org.sql2o.Connection con = sql2o.open()) {
             con.createQuery("DELETE FROM orders WHERE order_id = :order_id")
                     .addParameter("order_id", order_id)
                     .executeUpdate();
-            con.commit();
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -13,7 +13,7 @@ public class CategoryRepositoryImp implements CategoryRepository {
 
     // Encontrar categoría por ID
     @Override
-    public CategoryEntity findCategoryById(long category_id) {
+    public CategoryEntity findCategoryById(Long category_id) {
         try (org.sql2o.Connection con = sql2o.open()) {
             return con.createQuery("SELECT * FROM category WHERE category_id = :category_id")
                     .addParameter("category_id", category_id)
@@ -46,7 +46,6 @@ public class CategoryRepositoryImp implements CategoryRepository {
                     .addParameter("category_id", category.getCategory_id())
                     .addParameter("category_name", category.getCategory_name())
                     .executeUpdate();
-            con.commit(); // Confirmar la transacción
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -62,7 +61,6 @@ public class CategoryRepositoryImp implements CategoryRepository {
                     .addParameter("category_id", category.getCategory_id())
                     .addParameter("category_name", category.getCategory_name())
                     .executeUpdate();
-            con.commit(); // Confirmar la transacción
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -70,12 +68,11 @@ public class CategoryRepositoryImp implements CategoryRepository {
 
     // Eliminar categoría por ID
     @Override
-    public void deleteCategoryById(long category_id) {
+    public void deleteCategoryById(Long category_id) {
         try (org.sql2o.Connection con = sql2o.beginTransaction()) {
             con.createQuery("DELETE FROM category WHERE category_id = :category_id")
                     .addParameter("category_id", category_id)
                     .executeUpdate();
-            con.commit(); // Confirmar la transacción
         } catch (Exception e) {
             e.printStackTrace();
         }

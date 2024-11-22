@@ -13,7 +13,7 @@ public class ClientRepositoryImp implements ClientRepository {
 
     // Encontrar cliente por ID
     @Override
-    public ClientEntity findClientById(long id) {
+    public ClientEntity findClientById(Long id) {
         try (org.sql2o.Connection con = sql2o.open()) {
             return con.createQuery("SELECT * FROM client WHERE client_id = :client_id")
                     .addParameter("client_id", id)
@@ -62,7 +62,6 @@ public class ClientRepositoryImp implements ClientRepository {
                     .addParameter("password", client.getPassword())
                     .addParameter("phone_number", client.getPhone_number())
                     .executeUpdate();
-            con.commit();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -81,7 +80,6 @@ public class ClientRepositoryImp implements ClientRepository {
                     .addParameter("password", client.getPassword())
                     .addParameter("phone_number", client.getPhone_number())
                     .executeUpdate();
-            con.commit();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -89,12 +87,11 @@ public class ClientRepositoryImp implements ClientRepository {
 
     // Borrar cliente por ID
     @Override
-    public void deleteClientById(long id) {
+    public void deleteClientById(Long id) {
         try (org.sql2o.Connection con = sql2o.beginTransaction()) {
             con.createQuery("DELETE FROM client WHERE client_id = :client_id")
                     .addParameter("client_id", id)
                     .executeUpdate();
-            con.commit();
         } catch (Exception e) {
             e.printStackTrace();
         }

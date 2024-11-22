@@ -3,7 +3,7 @@
     <h2 class="text-center mb-4">Iniciar Sesión</h2>
     <form @submit.prevent="login" class="login-form">
       <div class="mb-3">
-        <label for="email" class="form-label">Correo Electrónicco</label>
+        <label for="email" class="form-label">Correo Electrónico</label>
         <input 
           type="email" 
           class="form-control" 
@@ -11,7 +11,7 @@
           v-model="email" 
           placeholder="Ingresa tu correo electrónico" 
           required
-        >
+        />
       </div>
 
       <div class="mb-3">
@@ -23,7 +23,7 @@
           v-model="password" 
           placeholder="Ingresa tu contraseña" 
           required
-        >
+        />
       </div>
 
       <button type="submit" class="btn btn-primary w-100">Iniciar Sesión</button>
@@ -45,17 +45,14 @@ export default {
   methods: {
     async login() {
       try {
-        // Llamada al servicio de login
         const response = await loginService.login(this.email, this.password);
 
-        // Si la respuesta es exitosa, redirigir al usuario
         console.log("Sesión Iniciada:", response);
         alert("Sesión Iniciada");
 
-        // Redirigir a la página de usuario
-        this.$router.push("/clientpage"); // Redirige a /clientpage
+        this.$router.push("/clientpage");
       } catch (error) {
-        console.error("Error al iniciar sesión:", error);
+        console.error("Error al iniciar sesión:", error.response?.data || error.message);
         alert("Error al iniciar sesión. Por favor, verifica tus credenciales.");
       }
     }

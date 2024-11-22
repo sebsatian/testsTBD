@@ -13,7 +13,7 @@ public class OrderService {
     @Autowired
     private OrderRepository orderRepository;
 
-    public OrderEntity getOrdersByOrderId(long order_id){
+    public OrderEntity getOrdersByOrderId(Long order_id){
         return orderRepository.findByOrderId(order_id);
     }
 
@@ -21,7 +21,7 @@ public class OrderService {
         return orderRepository.findAllOrders();
     }
 
-    public List<OrderEntity> getOrdersByClientId(long clientId) {
+    public List<OrderEntity> getOrdersByClientId(Long clientId) {
         return orderRepository.findByClientId(clientId);
     }
 
@@ -37,7 +37,7 @@ public class OrderService {
         orderRepository.updateOrder(order);
     }
 
-    public void deleteOrderById(long order_id){
+    public void deleteOrderById(Long order_id){
         orderRepository.deleteOrderById(order_id);
     }
 }

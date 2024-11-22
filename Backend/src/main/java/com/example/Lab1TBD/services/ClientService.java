@@ -12,7 +12,7 @@ public class ClientService {
     private ClientRepository clientRepository;
 
     // Obtener cliente por ID
-    public ClientEntity getClientById(long id) {
+    public ClientEntity getClientById(Long id) {
         return clientRepository.findClientById(id);
     }
 
@@ -36,12 +36,12 @@ public class ClientService {
     }
 
     // Eliminar un cliente por ID
-    public void deleteClient(long id) {
+    public void deleteClient(Long id) {
         clientRepository.deleteClientById(id);
     }
 
     // Completar el registro del cliente (añadir dirección y teléfono)
-    public ClientEntity completeRegistration(long id, String address, String phoneNumber) {
+    public ClientEntity completeRegistration(Long id, String address, String phoneNumber) {
         // Buscar cliente por ID
         ClientEntity client = clientRepository.findClientById(id);
         if (client == null) {

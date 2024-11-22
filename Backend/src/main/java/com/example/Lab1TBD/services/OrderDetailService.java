@@ -17,7 +17,7 @@ public class OrderDetailService {
         return orderDetailRepository.findAllOrderDetail();
     }
 
-    public OrderDetailEntity getOrderDetailById(long id) {
+    public OrderDetailEntity getOrderDetailById(Long id) {
         return orderDetailRepository.findOrderDetailById(id);
     }
 
@@ -29,11 +29,11 @@ public class OrderDetailService {
         return orderDetailRepository.findOrderDetailByQuantity(quantity);
     }
 
-    public OrderDetailEntity findOrderDetailByOrderId(long order_id) {
+    public OrderDetailEntity findOrderDetailByOrderId(Long order_id) {
         return orderDetailRepository.findOrderDetailByOrderId(order_id);
     }
 
-    public OrderDetailEntity findOrderDetailByProductId(long product_id){
+    public OrderDetailEntity findOrderDetailByProductId(Long product_id){
         return orderDetailRepository.findOrderDetailByProductId(product_id);
     }
 
@@ -45,7 +45,7 @@ public class OrderDetailService {
         orderDetailRepository.updateOrderDetail(orderDetail);
     }
 
-    public void deleteOrderDetail(long id) {
+    public void deleteOrderDetail(Long id) {
         orderDetailRepository.deleteOrderDetailById(id);
     }
 }

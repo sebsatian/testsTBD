@@ -40,7 +40,7 @@ public class OrderDetailController {
 
 
     @GetMapping("/{id}")
-    public ResponseEntity<OrderDetailEntity> getOrderDetailById(@PathVariable long id) {
+    public ResponseEntity<OrderDetailEntity> getOrderDetailById(@PathVariable Long id) {
         OrderDetailEntity foundOrderDetail = orderDetailService.getOrderDetailById(id);
         if (foundOrderDetail == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
@@ -68,7 +68,7 @@ public class OrderDetailController {
     }
 
     @GetMapping("/filter/order/{orderId}")
-    public ResponseEntity<OrderDetailEntity> getOrderDetailByOrderId(@PathVariable long orderId) {
+    public ResponseEntity<OrderDetailEntity> getOrderDetailByOrderId(@PathVariable Long orderId) {
         OrderDetailEntity orderDetail = orderDetailService.findOrderDetailByOrderId(orderId);
         if (orderDetail == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
@@ -77,7 +77,7 @@ public class OrderDetailController {
     }
 
     @GetMapping("/filter/product/{productId}")
-    public ResponseEntity<OrderDetailEntity> getOrderDetailByProductId(@PathVariable long productId) {
+    public ResponseEntity<OrderDetailEntity> getOrderDetailByProductId(@PathVariable Long productId) {
         OrderDetailEntity orderDetail = orderDetailService.findOrderDetailByProductId(productId);
         if (orderDetail == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
@@ -86,7 +86,7 @@ public class OrderDetailController {
     }
 
     @PutMapping("/edit/{id}")
-    public ResponseEntity<OrderDetailEntity> updateOrderDetail(@PathVariable long id, @RequestBody OrderDetailEntity updatedOrderDetail) {
+    public ResponseEntity<OrderDetailEntity> updateOrderDetail(@PathVariable Long id, @RequestBody OrderDetailEntity updatedOrderDetail) {
         OrderDetailEntity existingOrderDetail = orderDetailService.getOrderDetailById(id);
         if (existingOrderDetail == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
@@ -103,7 +103,7 @@ public class OrderDetailController {
     }
 
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<Void> deleteOrderDetail(@PathVariable long id) {
+    public ResponseEntity<Void> deleteOrderDetail(@PathVariable Long id) {
         OrderDetailEntity existingOrderDetail = orderDetailService.getOrderDetailById(id);
         if (existingOrderDetail == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
