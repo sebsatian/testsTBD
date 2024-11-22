@@ -70,7 +70,7 @@ public class ClientRepositoryImp implements ClientRepository {
 
     // Actualizar cliente por ID
     @Override
-    public void alterClientById(ClientEntity client) {
+    public void updateClient(ClientEntity client) {
         try (org.sql2o.Connection con = sql2o.beginTransaction()) {
             con.createQuery("UPDATE client SET client_name = :client_name, address = :address, " +
                             "email = :email, password = :password, phone_number = :phone_number WHERE client_id = :client_id")

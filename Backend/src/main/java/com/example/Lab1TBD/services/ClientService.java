@@ -16,6 +16,10 @@ public class ClientService {
         return clientRepository.findClientById(id);
     }
 
+    public ClientEntity getClientByName(String name){
+        return clientRepository.findClientByName(name);
+    }
+
     // Obtener cliente por email
     public ClientEntity getClientByEmail(String email) {
         return clientRepository.findClientByEmail(email);
@@ -28,7 +32,7 @@ public class ClientService {
 
     // Actualizar un cliente por ID
     public void updateClient(ClientEntity client) {
-        clientRepository.alterClientById(client);
+        clientRepository.updateClient(client);
     }
 
     // Eliminar un cliente por ID
@@ -49,7 +53,7 @@ public class ClientService {
         client.setPhone_number(phoneNumber);
 
         // Guardar los cambios
-        clientRepository.alterClientById(client);
+        clientRepository.updateClient(client);
 
         return client;
     }

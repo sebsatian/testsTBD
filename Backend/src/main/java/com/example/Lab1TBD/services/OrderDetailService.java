@@ -13,8 +13,28 @@ public class OrderDetailService {
     @Autowired
     private OrderDetailRepository orderDetailRepository;
 
+    public List<OrderDetailEntity> getAllOrderDetail(){
+        return orderDetailRepository.findAllOrderDetail();
+    }
+
     public OrderDetailEntity getOrderDetailById(long id) {
         return orderDetailRepository.findOrderDetailById(id);
+    }
+
+    public OrderDetailEntity findOrderDetailByPrice(float price) {
+        return orderDetailRepository.findOrderDetailByPrice(price);
+    }
+
+    public OrderDetailEntity findOrderDetailByQuantity(int quantity) {
+        return orderDetailRepository.findOrderDetailByQuantity(quantity);
+    }
+
+    public OrderDetailEntity findOrderDetailByOrderId(long order_id) {
+        return orderDetailRepository.findOrderDetailByOrderId(order_id);
+    }
+
+    public OrderDetailEntity findOrderDetailByProductId(long product_id){
+        return orderDetailRepository.findOrderDetailByProductId(product_id);
     }
 
     public void saveOrderDetail(OrderDetailEntity orderDetail) {
@@ -22,7 +42,7 @@ public class OrderDetailService {
     }
 
     public void updateOrderDetail(OrderDetailEntity orderDetail) {
-        orderDetailRepository.alterOrderDetailById(orderDetail);
+        orderDetailRepository.updateOrderDetail(orderDetail);
     }
 
     public void deleteOrderDetail(long id) {

@@ -54,7 +54,7 @@ public class CategoryRepositoryImp implements CategoryRepository {
 
     // Actualizar una categoría por ID
     @Override
-    public void alterCategoryById(CategoryEntity category) {
+    public void updateCategory(CategoryEntity category) {
         try (org.sql2o.Connection con = sql2o.beginTransaction()) {
             con.createQuery("UPDATE category " +
                             "SET category_name = :category_name " + // Eliminado el carácter extra ","

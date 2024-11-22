@@ -6,7 +6,8 @@ public interface ClientRepository {
     ClientEntity findClientById(long idCliente);
     ClientEntity findClientByName(String nombre);
     ClientEntity findClientByEmail(String email);
+
     void saveClient(ClientEntity cliente);
-    void alterClientById(ClientEntity cliente);
+    void updateClient(ClientEntity cliente);
     void deleteClientById(long id);
 }

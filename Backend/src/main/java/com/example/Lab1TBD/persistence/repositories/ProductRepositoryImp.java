@@ -26,6 +26,17 @@ public class ProductRepositoryImp implements ProductRepository {
         }
     }
 
+    @Override
+    public List<ProductEntity> findAllProducts(){
+        try (org.sql2o.Connection con = sql2o.open()){
+            return con.createQuery("SELECT * FROM product")
+                    .executeAndFetch(ProductEntity.class);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
     // Buscar producto por nombre
     @Override
     public List<ProductEntity> findProductByName(String product_name) {
@@ -123,7 +134,7 @@ public class ProductRepositoryImp implements ProductRepository {
 
     // Actualizar un producto por ID
     @Override
-    public void updateProductById(ProductEntity product) {
+    public void updateProduct(ProductEntity product) {
         try (org.sql2o.Connection con = sql2o.beginTransaction()) {
             con.createQuery("UPDATE product " +
                             "SET product_name = :product_name, description = :description, price = :price, " +
@@ -152,7 +163,9 @@ public class ProductRepositoryImp implements ProductRepository {
                     .executeUpdate();
             con.commit();
         } catch (Exception e) {
-            e.printStackTrace();
+            // Registrar el error en lugar de solo imprimir
+            throw new RuntimeException("Error al eliminar el producto con ID " + product_id, e);
         }
     }
+
 }

@@ -13,6 +13,10 @@ public class ProductService {
     @Autowired
     private ProductRepository productRepository;
 
+    public List<ProductEntity> getAllProducts(){
+        return productRepository.findAllProducts();
+    }
+
     public ProductEntity getProductById(long id) {
         return productRepository.findProductById(id);
     }
@@ -25,8 +29,20 @@ public class ProductService {
         return productRepository.findProductsByStatus(status);
     }
 
-    public List<ProductEntity> getProductsByCategory(long categoryId) {
+    public List<ProductEntity> getProductsByCategoryId(long categoryId) {
         return productRepository.findProductsByCategoryId(categoryId);
+    }
+
+    public List<ProductEntity> getProductsByStock(int stock){
+        return productRepository.findProductByStock(stock);
+    }
+
+    public List<ProductEntity> getProductsByDescription(String description){
+        return productRepository.findProductByDescription(description);
+    }
+
+    public List<ProductEntity> getProductsByPrice(float price){
+        return productRepository.findProductByPrice(price);
     }
 
     public void saveProduct(ProductEntity product) {
@@ -34,10 +50,10 @@ public class ProductService {
     }
 
     public void updateProduct(ProductEntity product) {
-        productRepository.updateProductById(product);
+        productRepository.updateProduct(product);
     }
 
-    public void deleteProduct(long id) {
+    public void deleteProduct(Long id) {
         productRepository.deleteProductById(id);
     }
 }

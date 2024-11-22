@@ -5,6 +5,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.sql2o.Sql2o;
 
+import java.util.List;
+
 @Repository
 public class OrderDetailRepositoryImp implements OrderDetailRepository {
 
@@ -15,7 +17,7 @@ public class OrderDetailRepositoryImp implements OrderDetailRepository {
     @Override
     public OrderDetailEntity findOrderDetailById(long order_detail_id) {
         try (org.sql2o.Connection con = sql2o.open()) {
-            return con.createQuery("SELECT * FROM order_detail WHERE id = :order_detail_id")
+            return con.createQuery("SELECT * FROM order_detail WHERE order_detail_id = :order_detail_id")
                     .addParameter("order_detail_id", order_detail_id)
                     .executeAndFetchFirst(OrderDetailEntity.class); // Cambiado para obtener un único resultado
         } catch (Exception e) {
@@ -95,7 +97,7 @@ public class OrderDetailRepositoryImp implements OrderDetailRepository {
 
     // Actualizar un detalle de orden por ID
     @Override
-    public void alterOrderDetailById(OrderDetailEntity orderDetail) {
+    public void updateOrderDetail(OrderDetailEntity orderDetail) {
         try (org.sql2o.Connection con = sql2o.beginTransaction()) {
             con.createQuery("UPDATE order_detail " +
                             "SET stock = :quantity, price = :price, order_id = :order_id, product_id = :product_id " +
@@ -116,7 +118,7 @@ public class OrderDetailRepositoryImp implements OrderDetailRepository {
     @Override
     public void deleteOrderDetailById(long order_detail_id) {
         try (org.sql2o.Connection con = sql2o.beginTransaction()) {
-            con.createQuery("DELETE FROM order_detail WHERE id = :order_detail_id")
+            con.createQuery("DELETE FROM order_detail WHERE order_detail_id = :order_detail_id")
                     .addParameter("order_detail_id", order_detail_id)
                     .executeUpdate();
             con.commit(); // Confirmar la transacción
@@ -124,4 +126,18 @@ public class OrderDetailRepositoryImp implements OrderDetailRepository {
             e.printStackTrace();
         }
     }
+
+
+    @Override
+    public List<OrderDetailEntity> findAllOrderDetail(){
+        try (org.sql2o.Connection con = sql2o.open()){
+            return con.createQuery("SELECT * FROM order_detail")
+                    .executeAndFetch(OrderDetailEntity.class);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+
 }

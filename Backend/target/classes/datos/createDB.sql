@@ -30,8 +30,8 @@ CREATE TABLE product (
                          FOREIGN KEY (category_id) REFERENCES category(category_id)
 );
 
-DROP TABLE IF EXISTS "order";
-CREATE TABLE "order" (
+DROP TABLE IF EXISTS orders;
+CREATE TABLE orders (
                          order_id serial PRIMARY KEY,
                          date TIMESTAMP,
                          status VARCHAR(50),
@@ -47,7 +47,7 @@ CREATE TABLE order_detail (
                               price DECIMAL(10, 2),
                               order_id INT,
                               product_id INT,
-                              FOREIGN KEY (order_id) REFERENCES "order"(order_id),
+                              FOREIGN KEY (order_id) REFERENCES orders(order_id),
                               FOREIGN KEY (product_id) REFERENCES product(product_id)
 );
 
@@ -76,9 +76,10 @@ INSERT INTO product (product_name, description, price, stock, product_status, ca
                                                                                                ('Sofá', 'Sofá de lujo', 50000, 8, 'Disponible', 4),
                                                                                                ('Agua', 'Agua mineral', 500, 25, 'Disponible', 5),
                                                                                                ('Vino', 'Vino tinto', 3000, 15, 'Disponible', 5),
-                                                                                               ('Cerveza', 'Corona', 2000, 10, 'Disponible', 5);
+                                                                                               ('Cerveza', 'Corona', 2000, 10, 'Disponible', 5),
+                                                                                               ('Purple Kush', 'Fineza', 20000, 5, 'Disponible', 5);
 
-INSERT INTO "order" (date, status, total, client_id) VALUES
+INSERT INTO orders (date, status, total, client_id) VALUES
                                                          ('2023-06-01', 'Pendiente', 200000, 1),
                                                          ('2023-06-02', 'Entregado', 300000, 2),
                                                          ('2023-06-03', 'Pendiente', 150000, 3),

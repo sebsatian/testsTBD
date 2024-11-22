@@ -5,8 +5,6 @@ import com.example.Lab1TBD.persistence.repositories.CategoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-
 @Service
 public class CategoryService {
 
@@ -26,7 +24,7 @@ public class CategoryService {
     }
 
     public void updateCategory(CategoryEntity category) {
-        categoryRepository.alterCategoryById(category);
+        categoryRepository.updateCategory(category);
     }
 
     public void deleteCategory(long id) {
