@@ -86,21 +86,20 @@ export default {
   methods: {
     async fetchTasks() {
       try {
-        const userId = localStorage.getItem("userId");
 
         if (this.filterByStatus && this.searchQuery.trim()) {
           const params = {
-            userId,
+            userId: localStorage.getItem("userId"),
             completed: this.showCompleted,
             keyword: this.searchQuery.trim(),
           };
           this.tasks = await TaskService.filterTasksByBoth(params);
         } else if (this.filterByStatus) {
-          this.tasks = await TaskService.filterTasksByCompleted(userId, this.showCompleted);
+          this.tasks = await TaskService.filterTasksByCompleted(localStorage.getItem("userId"), this.showCompleted);
         } else if (this.searchQuery.trim()) {
-          this.tasks = await TaskService.filterTasksByKeyword(userId, this.searchQuery.trim());
+          this.tasks = await TaskService.filterTasksByKeyword(localStorage.getItem("userId"), this.searchQuery.trim());
         } else {
-          this.tasks = await TaskService.filterTasksByUserId(userId);
+          this.tasks = await TaskService.filterTasksByUserId(localStorage.getItem("userId"));
         }
 
         // Ordenar las tareas por fecha de vencimiento
@@ -120,10 +119,10 @@ export default {
       }
     },
     goToCreateTask() {
-      this.$router.push("/userpage/tasks/create");
+      this.$router.push("/clientpage/tasks/create");
     },
     viewTask(taskId) {
-      this.$router.push(`/userpage/tasks/${taskId}`);
+      this.$router.push(`/clientpage/tasks/${taskId}`);
     },
   },
   mounted() {

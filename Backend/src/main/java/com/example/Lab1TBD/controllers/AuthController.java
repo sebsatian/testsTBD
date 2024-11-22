@@ -127,8 +127,4 @@ public class AuthController {
                     .body("Error al validar el token: " + e.getMessage());
         }
     }
-
-
-
-
 }

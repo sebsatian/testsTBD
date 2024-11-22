@@ -6,15 +6,15 @@ class TaskService {
   // Método para crear una nueva tarea
   async create(title, description, dueDate) {
     try {
-      const userId = localStorage.getItem("userId");
+      const clientId = localStorage.getItem("clientId");
 
-      if (!userId) {
-        throw new Error("No se encontró el userId en el localStorage");
+      if (!clientId) {
+        throw new Error("No se encontró el clientId en el localStorage");
       }
 
       const response = await axios.post(
         `${API_URL}/task/create`,
-        { title, description, dueDate, userId },
+        { title, description, dueDate, clientId },
         {
           headers: {
             "Content-Type": "application/json",
@@ -29,10 +29,10 @@ class TaskService {
     }
   }
 
-  // Método para obtener todas las tareas por userId
-  async filterTasksByUserId(userId) {
+  // Método para obtener todas las tareas por clientId
+  async filterTasksByclientId(clientId) {
     try {
-      const response = await axios.get(`${API_URL}/task/filter/userId/${userId}`, {
+      const response = await axios.get(`${API_URL}/task/filter/clientId/${clientId}`, {
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${localStorage.getItem("jwtToken")}`,
@@ -41,16 +41,16 @@ class TaskService {
 
       return response.data;
     } catch (error) {
-      console.error("Error al filtrar tareas por userId:", error.response?.data || error.message);
+      console.error("Error al filtrar tareas por clientId:", error.response?.data || error.message);
       throw error;
     }
   }
 
   // Método para filtrar tareas por estado
-  async filterTasksByCompleted(userId, completed) {
+  async filterTasksByCompleted(clientId, completed) {
     try {
       const response = await axios.get(`${API_URL}/task/filter/completed`, {
-        params: { userId, completed },
+        params: { clientId, completed },
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${localStorage.getItem("jwtToken")}`,
@@ -64,10 +64,10 @@ class TaskService {
   }
 
   // Método para filtrar tareas por palabra clave
-  async filterTasksByKeyword(userId, keyword) {
+  async filterTasksByKeyword(clientId, keyword) {
     try {
       const response = await axios.get(`${API_URL}/task/filter/keyword`, {
-        params: { userId, keyword },
+        params: { clientId, keyword },
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${localStorage.getItem("jwtToken")}`,
@@ -146,10 +146,10 @@ class TaskService {
   }
 
 // Método para obtener tareas con vencimiento en menos de una semana
-async getTasksDueInAWeek(userId) {
+async getTasksDueInAWeek(clientId) {
   try {
     const response = await axios.get(`${API_URL}/task/filter/duedate/week`, {
-      params: { userId },
+      params: { clientId },
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${localStorage.getItem("jwtToken")}`,
@@ -165,7 +165,7 @@ async getTasksDueInAWeek(userId) {
 async filterTasksByBoth(params) {
   try {
     const response = await axios.get(`${API_URL}/task/filter/both`, {
-      params, // userId, completed, keyword
+      params, // clientId, completed, keyword
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${localStorage.getItem("jwtToken")}`,

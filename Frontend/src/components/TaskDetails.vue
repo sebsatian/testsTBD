@@ -58,14 +58,14 @@ export default {
   methods: {
     editTask() {
       // Redirige al componente EditTask pasando el ID de la tarea
-      this.$router.push(`/userpage/tasks/${this.task.id}/edit`);
+      this.$router.push(`/clientpage/tasks/${this.task.id}/edit`);
     },
     async deleteTask() {
       try {
         if (confirm("¿Estás seguro de que deseas eliminar esta tarea?")) {
           await TaskService.deleteTask(this.task.id);
           alert("Tarea eliminada con éxito.");
-          this.$router.push("/userpage/tasks");
+          this.$router.push("/clientpage/tasks");
         }
       } catch (error) {
         console.error("Error al eliminar la tarea:", error);

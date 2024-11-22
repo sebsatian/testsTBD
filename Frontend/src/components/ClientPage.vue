@@ -1,5 +1,5 @@
 <template>
-  <div class="user-page-container">
+  <div class="client-page-container">
     <h2>Bienvenido.</h2>
     <p>Selecciona una acción:</p>
     <!-- Botones -->
@@ -11,15 +11,15 @@
 
 <script>
 export default {
-  name: 'UserPage',
+  name: 'ClientPage',
   methods: {
     // Navega a la página de tareas
     handleButton1Click() {
-      this.$router.push('/userpage/tasks');
+      this.$router.push('/clientpage/tasks');
     },
     // Navega a la página de notificaciones
     handleButton2Click() {
-      this.$router.push('/userpage/notifications');
+      this.$router.push('/clientpage/notifications');
     },
     // Cierra sesión y redirige
     handleLogout() {
@@ -35,7 +35,7 @@ export default {
 </script>
 
 <style scoped>
-.user-page-container {
+.client-page-container {
   text-align: center;
   padding: 40px;
 }

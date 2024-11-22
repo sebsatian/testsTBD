@@ -14,7 +14,7 @@ public class OrderRepositoryImp implements OrderRepository {
     private Sql2o sql2o;
 
     @Override
-    public OrderEntity findByOrderId(Long order_id) {
+    public OrderEntity findByOrderId(long order_id) {
         try (org.sql2o.Connection con = sql2o.open()) {
             return con.createQuery("SELECT * FROM orders WHERE order_id = :order_id")
                     .addParameter("order_id", order_id)
@@ -37,7 +37,7 @@ public class OrderRepositoryImp implements OrderRepository {
     }
 
     @Override
-    public List<OrderEntity> findByClientId(Long clientId) {
+    public List<OrderEntity> findByClientId(long clientId) {
         try (org.sql2o.Connection con = sql2o.open()) {
             return con.createQuery("SELECT * FROM orders WHERE client_id = :client_id")
                     .addParameter("client_id", clientId)

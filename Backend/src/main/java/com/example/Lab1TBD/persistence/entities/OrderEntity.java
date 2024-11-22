@@ -11,9 +11,9 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 public class OrderEntity {
-    private Long order_id; // identificador unico de la orden
+    private long order_id; // identificador unico de la orden
     private Timestamp date; // fecha en que se realizo la orden
     private String status;    // estado de la orden (pendiente,pagada,enviada)
     private Float total;  // total a pagar de la orden (OJO, todos los productos del cliente)
-    private Long client_id; // identificador foraneo del cliente FK
+    private long client_id; // identificador foraneo del cliente FK
 }

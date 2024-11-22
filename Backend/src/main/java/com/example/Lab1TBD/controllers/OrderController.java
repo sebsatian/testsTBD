@@ -56,7 +56,7 @@ public class OrderController {
     }
 
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<Void> deleteOrder(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteOrder(@PathVariable long id) {
         OrderEntity existingOrder = orderService.getOrdersByOrderId(id);
         if (existingOrder == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();

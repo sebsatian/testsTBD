@@ -3,18 +3,19 @@ import axios from "axios";
 const API_URL = process.env.VUE_APP_BACKEND_IP;
 
 class RegisterService {
-  async register(username, password) {
+  async register(name, email, password) {
     try {
       const response = await axios.post(
         `${API_URL}/auth/register`,
         {
-          username,
-          password,
+          name,
+          email,
+          password
         },
         {
           headers: {
-            "Content-Type": "application/json",
-          },
+            "Content-Type": "application/json"
+          }
         }
       );
       return response.data;
@@ -23,12 +24,34 @@ class RegisterService {
       throw error; // Esto permitirá manejar el error desde donde se llama este método
     }
   }
+  
+  async completeRegistration(clientId, address, phoneNumber) {
+    try {
+      const response = await axios.put(
+        `${API_URL}/client/complete-registration/${clientId}`,
+        {
+          address,
+          phoneNumber,
+        },
+        {
+          headers: {
+            "Authorization": `Bearer ${localStorage.getItem("jwtToken")}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      return response.data;
+    } catch (error) {
+      console.error("Error al completar el registro:", error);
+      throw error;
+    }
+  }
 }
 
 class LoginService {
-  async login(username, password) {
+  async login(clientname, password) {
     // Crear el objeto de datos a enviar
-    const data = { username, password };
+    const data = { clientname, password };
 
     // Imprimir el JSON antes de enviarlo
     console.log("Datos enviados al backend:", JSON.stringify(data, null, 2));
@@ -37,15 +60,15 @@ class LoginService {
       // Realizar la solicitud al backend
       const response = await axios.post(`${API_URL}/auth/login`, data);
 
-      // Extraer token y userId desde la respuesta
-      const { token, userId } = response.data;
+      // Extraer token y clientId desde la respuesta
+      const { token, clientId } = response.data;
 
       // Guardar en localStorage
       localStorage.setItem("jwtToken", token);
-      localStorage.setItem("userId", userId);
+      localStorage.setItem("clientId", clientId);
 
       // Retornar los datos si se necesitan en el componente
-      return { token, userId };
+      return { token, clientId };
     } catch (error) {
       console.error("Error al iniciar sesión:", error);
       throw error;
@@ -81,7 +104,7 @@ async function validateSession() {
   } catch (error) {
     alert("Tu sesión ha expirado. Por favor, inicia sesión nuevamente.");
     localStorage.removeItem("jwtToken"); // Limpia el token si es inválido
-    localStorage.removeItem("userId"); // Limpia el userId si es inválido
+    localStorage.removeItem("clientId"); // Limpia el clientId si es inválido
     window.location.href = "/"; // Redirige a la página principal
     return false; // Bloquea el acceso
   }

@@ -69,7 +69,7 @@ export default {
       this.notifications = [];
     },
     viewTask(taskId) {
-      this.$router.push(`/userpage/tasks/${taskId}`); // Navegar a la vista de la tarea
+      this.$router.push(`/clientpage/tasks/${taskId}`); // Navegar a la vista de la tarea
     },
   },
   mounted() {

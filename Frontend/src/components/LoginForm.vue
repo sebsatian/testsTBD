@@ -3,12 +3,12 @@
     <h2 class="text-center mb-4">Iniciar Sesión</h2>
     <form @submit.prevent="login" class="login-form">
       <div class="mb-3">
-        <label for="username" class="form-label">Nombre de usuario</label>
+        <label for="email" class="form-label">Nombre de usuario</label>
         <input 
           type="text" 
           class="form-control" 
-          id="username" 
-          v-model="username" 
+          id="email" 
+          v-model="email" 
           placeholder="Ingresa tu nombre de usuario" 
           required
         >
@@ -32,13 +32,13 @@
 </template>
 
 <script>
-import { loginService } from '@/services/user.service';
+import { loginService } from '@/services/client.service';
 
 export default {
   name: 'LoginForm',
   data() {
     return {
-      username: '',
+      email: '',
       password: ''
     };
   },
@@ -46,14 +46,14 @@ export default {
     async login() {
       try {
         // Llamada al servicio de login
-        const response = await loginService.login(this.username, this.password);
+        const response = await loginService.login(this.email, this.password);
 
         // Si la respuesta es exitosa, redirigir al usuario
         console.log('Sesión Iniciada:', response);
         alert('Sesión Iniciada');
 
         // Redirigir a la página de usuario
-        this.$router.push('/userpage'); // Redirige a /userpage (puedes cambiar la ruta según tu estructura)
+        this.$router.push('/clientpage'); // Redirige a /clientpage (puedes cambiar la ruta según tu estructura)
       } catch (error) {
         console.error('Error al iniciar sesión:', error);
         alert('Error al iniciar sesión');

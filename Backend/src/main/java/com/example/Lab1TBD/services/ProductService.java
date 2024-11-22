@@ -53,7 +53,7 @@ public class ProductService {
         productRepository.updateProduct(product);
     }
 
-    public void deleteProduct(Long id) {
+    public void deleteProduct(long id) {
         productRepository.deleteProductById(id);
     }
 }

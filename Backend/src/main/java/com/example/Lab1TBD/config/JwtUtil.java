@@ -7,9 +7,7 @@ import com.auth0.jwt.interfaces.DecodedJWT;
 import org.springframework.context.annotation.Configuration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import java.util.Date;
-import java.util.concurrent.TimeUnit;
 
 @Configuration
 public class JwtUtil {
@@ -24,7 +22,8 @@ public class JwtUtil {
                 .withSubject(username)
                 .withIssuer("tbd")
                 .withIssuedAt(new Date())
-                .withExpiresAt(new Date(System.currentTimeMillis() + TimeUnit.MINUTES.toMillis(15))) // Duración del token
+                .withExpiresAt(new Date(System.currentTimeMillis() + 15 * 60 * 1000)) // 15 minutos en milisegundos
+
                 .sign(ALGORITHM);
     }
 

@@ -22,7 +22,7 @@ public class ProductController {
     }
 
     @GetMapping("/search/id/{id}")
-    public ResponseEntity<ProductEntity> getProductById(@PathVariable Long id){
+    public ResponseEntity<ProductEntity> getProductById(@PathVariable long id){
         return ResponseEntity.ok(productService.getProductById(id));
     }
 
@@ -37,7 +37,7 @@ public class ProductController {
     }
 
     @GetMapping("/search/categoryId/{id}")
-    public ResponseEntity<List<ProductEntity>> getProductsByCategoryId(@PathVariable Long id){
+    public ResponseEntity<List<ProductEntity>> getProductsByCategoryId(@PathVariable long id){
         return ResponseEntity.ok(productService.getProductsByCategoryId(id));
     }
 
@@ -55,7 +55,7 @@ public class ProductController {
 
 
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<Void> deleteProduct(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteProduct(@PathVariable long id) {
         ProductEntity existingProduct = productService.getProductById(id);
         if (existingProduct == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();

@@ -80,7 +80,7 @@
             dueDate: this.dueDate,
           });
           alert("Tarea actualizada con éxito.");
-          this.$router.push("/userpage/tasks");
+          this.$router.push("/clientpage/tasks");
         } catch (error) {
           console.error("Error al actualizar la tarea:", error);
           alert("Error al actualizar la tarea.");

@@ -3,13 +3,25 @@
     <h2 class="text-center mb-4">Registro</h2>
     <form @submit.prevent="register" class="register-form">
       <div class="mb-3">
-        <label for="username" class="form-label">Nombre de usuario</label>
+        <label for="name" class="form-label">Nombre</label>
         <input 
           type="text" 
           class="form-control" 
-          id="username" 
-          v-model="username" 
-          placeholder="Ingresa tu nombre de usuario" 
+          id="name" 
+          v-model="name" 
+          placeholder="Ingresa tu nombre" 
+          required
+        >
+      </div>
+      
+      <div class="mb-3">
+        <label for="email" class="form-label">Correo Electrónico</label>
+        <input 
+          type="email" 
+          class="form-control" 
+          id="email" 
+          v-model="email" 
+          placeholder="Ingresa tu correo electrónico" 
           required
         >
       </div>
@@ -27,7 +39,7 @@
       </div>
       
       <div class="mb-3">
-        <label for="confirmPassword" class="form-label">Confirmar contraseña</label>
+        <label for="confirmPassword" class="form-label">Confirmar Contraseña</label>
         <input 
           type="password" 
           class="form-control" 
@@ -44,13 +56,14 @@
 </template>
 
 <script>
-import { registerService } from '@/services/user.service';
+import { registerService } from '@/services/client.service';
 
 export default {
   name: 'RegisterForm',
   data() {
     return {
-      username: '',
+      name: '',
+      email: '',
       password: '',
       confirmPassword: ''
     };
@@ -65,12 +78,15 @@ export default {
 
       try {
         // Llamada al servicio de registro
-        const response = await registerService.register(this.username, this.password);
+        const response = await registerService.register(this.name, this.email, this.password);
         console.log('Usuario registrado:', response);
-        alert('Usuario registrado con éxito');
+        alert('Usuario registrado con éxito. Por favor completa tu registro.');
 
-        // Redirigir al usuario a la página de login
-        this.$router.push('/login');  // Redirige a la página de login
+        // Guardar el clientId en el localStorage para usarlo en la siguiente vista
+        localStorage.setItem('clientId', response.clientId);
+
+        // Redirigir al usuario a la página de completar registro
+        this.$router.push('/complete-register'); // Redirige al componente CompleteRegister
       } catch (error) {
         console.error('Error al registrar el usuario:', error);
         alert('Error al registrar el usuario');

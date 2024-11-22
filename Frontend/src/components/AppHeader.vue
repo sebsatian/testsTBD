@@ -11,7 +11,7 @@
 </template>
 
 <script>
-import { validateSession } from "@/services/user.service";
+import { validateSession } from "@/services/client.service";
 
 export default {
   name: "AppHeader",
@@ -22,13 +22,13 @@ export default {
     async goToTaskMenu() {
       const isValid = await validateSession(); // Llama a la función para validar la sesión
       if (isValid) {
-        this.$router.push("/userpage"); // Redirige al menú de tareas
+        this.$router.push("/clientpage"); // Redirige al menú de tareas
       }
     },
     async goToTasks() {
       const isValid = await validateSession(); // Llama a la función para validar la sesión
       if (isValid) {
-        this.$router.push("/userpage/tasks"); // Redirige a "Mis Tareas"
+        this.$router.push("/clientpage/tasks"); // Redirige a "Mis Tareas"
       }
     },
     logout() {
