@@ -10,7 +10,7 @@ public interface OrderRepository {
     List<OrderEntity> findByClientId(Long clientId);
     List<OrderEntity> findByStatus(String status);
 
-    void saveOrder(OrderEntity order);
+    Long saveOrder(OrderEntity order);
     void updateOrder(OrderEntity order);
     void deleteOrderById(Long order_id);
 }

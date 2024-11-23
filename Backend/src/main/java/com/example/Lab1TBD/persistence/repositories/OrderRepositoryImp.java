@@ -61,17 +61,23 @@ public class OrderRepositoryImp implements OrderRepository {
     }
 
     @Override
-    public void saveOrder(OrderEntity order) {
-        try (org.sql2o.Connection con = sql2o.open()) {
-            con.createQuery("INSERT INTO orders (date, status, total, client_id) " +
-                            "VALUES (:date, :status, :total, :client_id)")
+    public Long saveOrder(OrderEntity order) {
+        String insertQuery = "INSERT INTO orders (date, status, total, client_id) " +
+                "VALUES (:date, :status, :total, :client_id)";
+
+        // Usamos RETURN_GENERATED_KEYS para obtener el ID generado
+        try (org.sql2o.Connection connection = sql2o.open()) {
+            Long generatedId = connection.createQuery(insertQuery, true)
                     .addParameter("date", order.getDate())
                     .addParameter("status", order.getStatus())
                     .addParameter("total", order.getTotal())
                     .addParameter("client_id", order.getClient_id())
-                    .executeUpdate();
+                    .executeUpdate()
+                    .getKey(Long.class); // Obtenemos el ID generado como Long
+            return generatedId;
         } catch (Exception e) {
             e.printStackTrace();
+            throw new RuntimeException("Error al guardar la orden en la base de datos", e);
         }
     }
 

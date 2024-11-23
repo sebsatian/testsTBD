@@ -29,8 +29,8 @@ public class OrderService {
         return orderRepository.findByStatus(status);
     }
 
-    public void saveOrder(OrderEntity order){
-        orderRepository.saveOrder(order);
+    public Long saveOrder(OrderEntity order) {
+        return orderRepository.saveOrder(order); // Retorna el ID generado
     }
 
     public void updateOrder(OrderEntity order){

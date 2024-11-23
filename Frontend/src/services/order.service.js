@@ -15,6 +15,8 @@ class OrderService {
       });
 
       console.log("Respuesta del backend al crear la orden:", response.data);
+      const orderId = response.data;
+      return orderId;
     } catch (error) {
       console.error("Error al crear la orden:", error.response?.data || error.message);
       throw error;

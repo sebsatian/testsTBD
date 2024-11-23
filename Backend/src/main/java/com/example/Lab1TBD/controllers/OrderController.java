@@ -44,15 +44,9 @@ public class OrderController {
     }
 
     @PostMapping("/new-order")
-    public ResponseEntity<Void> saveOrder(@RequestBody OrderEntity order) {
-        // Agregar validaciones si es necesario
-        try {
-            orderService.saveOrder(order);
-            return ResponseEntity.noContent().build();
-        } catch (Exception e) {
-            e.printStackTrace();
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-        }
+    public ResponseEntity<Long> saveOrder(@RequestBody OrderEntity order) {
+        Long orderId = orderService.saveOrder(order); // Llama al servicio y obtiene el ID
+        return ResponseEntity.ok(orderId); // Retorna el ID generado
     }
 
     @PutMapping("/")
