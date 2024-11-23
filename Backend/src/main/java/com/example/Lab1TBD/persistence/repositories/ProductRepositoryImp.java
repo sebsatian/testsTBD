@@ -165,4 +165,17 @@ public class ProductRepositoryImp implements ProductRepository {
         }
     }
 
+    @Override
+    public void updateProductStock(Long productId, int quantity) {
+        try (org.sql2o.Connection con = sql2o.open()) {
+            con.createQuery("UPDATE product SET stock = stock - :quantity WHERE product_id = :productId")
+                    .addParameter("quantity", quantity)
+                    .addParameter("productId", productId)
+                    .executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+
 }

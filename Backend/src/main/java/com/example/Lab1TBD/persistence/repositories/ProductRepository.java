@@ -17,4 +17,5 @@ public interface ProductRepository {
     void updateProduct(ProductEntity product);
     void deleteProductById(Long product_id);
 
+    void updateProductStock(Long productId, int quantity);
 }
