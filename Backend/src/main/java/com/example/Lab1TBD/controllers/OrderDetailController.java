@@ -68,13 +68,14 @@ public class OrderDetailController {
     }
 
     @GetMapping("/filter/order/{orderId}")
-    public ResponseEntity<OrderDetailEntity> getOrderDetailByOrderId(@PathVariable Long orderId) {
-        OrderDetailEntity orderDetail = orderDetailService.findOrderDetailByOrderId(orderId);
-        if (orderDetail == null) {
+    public ResponseEntity<List<OrderDetailEntity>> getOrderDetailsByOrderId(@PathVariable Long orderId) {
+        List<OrderDetailEntity> orderDetails = orderDetailService.findOrderDetailByOrderId(orderId);
+        if (orderDetails.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
-        return ResponseEntity.ok(orderDetail);
+        return ResponseEntity.ok(orderDetails);
     }
+
 
     @GetMapping("/filter/product/{productId}")
     public ResponseEntity<OrderDetailEntity> getOrderDetailByProductId(@PathVariable Long productId) {

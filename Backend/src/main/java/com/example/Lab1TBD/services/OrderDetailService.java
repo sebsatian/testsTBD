@@ -29,9 +29,10 @@ public class OrderDetailService {
         return orderDetailRepository.findOrderDetailByQuantity(quantity);
     }
 
-    public OrderDetailEntity findOrderDetailByOrderId(Long order_id) {
-        return orderDetailRepository.findOrderDetailByOrderId(order_id);
+    public List<OrderDetailEntity> findOrderDetailByOrderId(Long orderId) {
+        return orderDetailRepository.findOrderDetailByOrderId(orderId);
     }
+
 
     public OrderDetailEntity findOrderDetailByProductId(Long product_id){
         return orderDetailRepository.findOrderDetailByProductId(product_id);
@@ -47,5 +48,9 @@ public class OrderDetailService {
 
     public void deleteOrderDetail(Long id) {
         orderDetailRepository.deleteOrderDetailById(id);
+    }
+
+    public void deleteOrderDetailsByOrderId(Long orderId) {
+        orderDetailRepository.deleteOrderDetailsByOrderId(orderId);
     }
 }

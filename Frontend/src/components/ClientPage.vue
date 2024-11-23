@@ -4,7 +4,6 @@
     <p>Selecciona una acción:</p>
     <!-- Botones -->
     <button @click="handleViewProductsClick" class="btn btn-primary">Ver Productos</button>
-    <button @click="handleButton2Click" class="btn btn-primary">Notificaciones</button>
     <button @click="handleLogout" class="btn btn-danger">Cerrar Sesión</button>
   </div>
 </template>
@@ -16,10 +15,6 @@ export default {
     // Navega a la página de productos
     handleViewProductsClick() {
       this.$router.push('/products');
-    },
-    // Navega a la página de notificaciones
-    handleButton2Click() {
-      this.$router.push('/clientpage/notifications');
     },
     // Cierra sesión y redirige
     handleLogout() {

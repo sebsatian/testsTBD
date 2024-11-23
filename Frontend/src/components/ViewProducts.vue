@@ -37,7 +37,7 @@
         </tr>
       </tbody>
     </table>
-    <button class="btn btn-primary w-100 mt-3" @click="createOrder">Crear Orden</button>
+    <button class="btn btn-primary w-100 mt-3" @click="createOrderAndDetails">Crear Orden</button>
   </div>
 </template>
 
@@ -49,7 +49,7 @@ export default {
   name: "ViewProducts",
   data() {
     return {
-      products: [],
+      products: [], // Lista de productos
     };
   },
   methods: {
@@ -58,7 +58,7 @@ export default {
         const fetchedProducts = await ProductService.getAllProducts();
         this.products = fetchedProducts.map((product) => ({
           ...product,
-          quantity: 0,
+          quantity: 0, // Inicializar la cantidad a comprar en 0
         }));
       } catch (error) {
         console.error("Error al obtener los productos:", error.response?.data || error.message);
@@ -75,7 +75,7 @@ export default {
         product.quantity--;
       }
     },
-    async createOrder() {
+    async createOrderAndDetails() {
       const selectedProducts = this.products.filter((product) => product.quantity > 0);
 
       if (selectedProducts.length === 0) {
@@ -83,6 +83,7 @@ export default {
         return;
       }
 
+      // Calcular el total
       const total = selectedProducts.reduce((acc, item) => acc + item.quantity * item.price, 0);
 
       // Convertir client_id a Long
@@ -96,11 +97,27 @@ export default {
       };
 
       try {
-        await OrderService.createOrder(orderData);
-        alert("Orden creada exitosamente.");
-        this.$router.push("/clientpage/orders");
+        // Crear la orden y obtener el ID generado
+        const orderId = await OrderService.createOrder(orderData);
+
+        console.log("ID de la orden creada:", orderId);
+
+        // Crear detalles de la orden para cada producto seleccionado
+        for (const product of selectedProducts) {
+          const orderDetail = {
+            order_id: orderId,
+            product_id: product.product_id,
+            quantity: product.quantity,
+            price: product.price,
+          };
+
+          await OrderService.createOrderDetail(orderDetail); // Llamar al servicio de detalles
+        }
+
+        alert("Orden y detalles creados exitosamente.");
+        this.$router.push("/clientpage/orders"); // Redirigir a la página de órdenes
       } catch (error) {
-        console.error("Error al crear la orden:", error.response?.data || error.message);
+        console.error("Error al crear la orden o sus detalles:", error.response?.data || error.message);
         alert("Hubo un error al crear la orden. Intenta nuevamente más tarde.");
       }
     },
@@ -113,3 +130,47 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+.products-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #f8f9fa;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+  color: #333;
+  margin-bottom: 20px;
+}
+
+.table th,
+.table td {
+  text-align: center;
+  vertical-align: middle;
+}
+
+.quantity-selector {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.quantity {
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+.btn-danger {
+  background-color: #dc3545;
+  border-color: #dc3545;
+}
+
+.btn-success {
+  background-color: #28a745;
+  border-color: #28a745;
+}
+</style>

@@ -1,6 +1,7 @@
 package com.example.Lab1TBD.controllers;
 
 import com.example.Lab1TBD.persistence.entities.OrderEntity;
+import com.example.Lab1TBD.services.OrderDetailService;
 import com.example.Lab1TBD.services.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -15,6 +16,8 @@ import java.util.List;
 public class OrderController {
     @Autowired
     private OrderService orderService;
+    @Autowired
+    private OrderDetailService orderDetailService;
 
     @GetMapping("/getall")
     public ResponseEntity<List<OrderEntity>> getAllOrders(){
@@ -55,21 +58,18 @@ public class OrderController {
         return ResponseEntity.noContent().build();
     }
 
-    @DeleteMapping("/delete/{id}")
-    public ResponseEntity<Void> deleteOrder(@PathVariable Long id) {
-        OrderEntity existingOrder = orderService.getOrdersByOrderId(id);
-        if (existingOrder == null) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-        }
-
+    @DeleteMapping("/delete/{orderId}")
+    public ResponseEntity<Void> deleteOrder(@PathVariable Long orderId) {
         try {
-            orderService.deleteOrderById(id);
+            orderDetailService.deleteOrderDetailsByOrderId(orderId);
+            orderService.deleteOrderById(orderId);
             return ResponseEntity.noContent().build();
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
+
 
 
 }

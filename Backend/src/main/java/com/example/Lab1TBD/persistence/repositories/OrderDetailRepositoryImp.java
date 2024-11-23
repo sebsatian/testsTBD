@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.sql2o.Sql2o;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Repository
@@ -54,16 +55,17 @@ public class OrderDetailRepositoryImp implements OrderDetailRepository {
 
     // Buscar detalle de orden por ID de orden
     @Override
-    public OrderDetailEntity findOrderDetailByOrderId(Long order_id) {
+    public List<OrderDetailEntity> findOrderDetailByOrderId(Long order_id) {
         try (org.sql2o.Connection con = sql2o.open()) {
             return con.createQuery("SELECT * FROM order_detail WHERE order_id = :order_id")
                     .addParameter("order_id", order_id)
-                    .executeAndFetchFirst(OrderDetailEntity.class);
+                    .executeAndFetch(OrderDetailEntity.class); // Cambiado a executeAndFetch para devolver una lista
         } catch (Exception e) {
             e.printStackTrace();
-            return null;
+            return new ArrayList<>(); // Devuelve una lista vacía en caso de error
         }
     }
+
 
     // Buscar detalle de orden por ID de producto
     @Override
@@ -82,17 +84,20 @@ public class OrderDetailRepositoryImp implements OrderDetailRepository {
     @Override
     public void saveOrderDetail(OrderDetailEntity orderDetail) {
         try (org.sql2o.Connection con = sql2o.beginTransaction()) {
-            con.createQuery("INSERT INTO order_detail (stock, price, order_id, product_id) " +
+            con.createQuery("INSERT INTO order_detail (quantity, price, order_id, product_id) " +
                             "VALUES (:quantity, :price, :order_id, :product_id)")
                     .addParameter("quantity", orderDetail.getQuantity())
                     .addParameter("price", orderDetail.getPrice())
                     .addParameter("order_id", orderDetail.getOrder_id())
                     .addParameter("product_id", orderDetail.getProduct_id())
                     .executeUpdate();
+            // Confirmar la transacción
+            con.commit();
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
+
 
     // Actualizar un detalle de orden por ID
     @Override
@@ -135,6 +140,20 @@ public class OrderDetailRepositoryImp implements OrderDetailRepository {
             return null;
         }
     }
+    @Override
+    public void deleteOrderDetailsByOrderId(Long orderId) {
+        try (org.sql2o.Connection con = sql2o.open()) {
+            con.createQuery("DELETE FROM order_detail WHERE order_id = :orderId")
+                    .addParameter("orderId", orderId)
+                    .executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+
+
+
 
 
 }

@@ -2,10 +2,10 @@
   <header>
     <nav>
       <button @click="goHome" class="nav-button">Inicio</button>
-      <button @click="goToTaskMenu" class="nav-button">Menú de usuario</button>
-      <button @click="goToTasks" class="nav-button">Mis Tareas</button>
+      <button @click="goToTaskMenu" class="nav-button">Menú de cliente</button>
+      <button @click="goToTasks" class="nav-button">Mis Órdenes</button>
     </nav>
-    <h1 class="centered-title">Gestor de tareas</h1>
+    <h1 class="centered-title">Gestor de Inventario</h1>
     <button @click="logout" class="logout-button">Cerrar Sesión</button>
   </header>
 </template>
@@ -28,7 +28,8 @@ export default {
     async goToTasks() {
       const isValid = await validateSession(); // Llama a la función para validar la sesión
       if (isValid) {
-        this.$router.push("/clientpage/tasks"); // Redirige a "Mis Tareas"
+        this.$router.push("/clientpage/orders");
+
       }
     },
     logout() {

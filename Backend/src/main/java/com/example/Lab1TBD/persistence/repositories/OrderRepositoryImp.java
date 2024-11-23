@@ -99,13 +99,14 @@ public class OrderRepositoryImp implements OrderRepository {
     }
 
     @Override
-    public void deleteOrderById(Long order_id) {
+    public void deleteOrderById(Long orderId) {
         try (org.sql2o.Connection con = sql2o.open()) {
-            con.createQuery("DELETE FROM orders WHERE order_id = :order_id")
-                    .addParameter("order_id", order_id)
+            con.createQuery("DELETE FROM orders WHERE order_id = :orderId")
+                    .addParameter("orderId", orderId)
                     .executeUpdate();
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
+
 }
