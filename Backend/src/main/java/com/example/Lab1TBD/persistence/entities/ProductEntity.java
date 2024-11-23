@@ -8,11 +8,11 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ProductEntity {
-    private Long product_id; //identificador unico del producto
-    private String product_name;  //nombre del producto
-    private String description; //descripcion del producto
-    private Float price;   //precio del producto
-    private Integer stock;  //cantidad disponible del producto
-    private String product_status;  //estado del producto (disponible,agotado)
-    private Integer category_id;   //identificador foraneo de categoria FK
+    private Long product_id;       // ID UNICO
+    private String product_name;   // nombre del producto
+    private String description;    // descripcion del producto
+    private Float price;           // precio del producto
+    private Integer stock;         // cantidad disponible del producto
+    private String product_status; // estado del producto (disponible,agotado)
+    private Integer category_id;   // identificador foraneo de categoria FK
 }

@@ -15,7 +15,6 @@ public class CategoryController {
     @Autowired
     private CategoryService categoryService;
 
-
     // Obtener una categoría por ID
     @GetMapping("/{id}")
     public ResponseEntity<CategoryEntity> getCategoryById(@PathVariable Long id) {
@@ -46,21 +45,7 @@ public class CategoryController {
         }
     }
 
-    // Crear una nueva categoría
-    @PostMapping("/create")
-    public ResponseEntity<String> createCategory(@RequestBody CategoryEntity category) {
-        try {
-            if (category.getCategory_name() == null || category.getCategory_name().isEmpty()) {
-                return ResponseEntity.badRequest().body("El nombre de la categoría no puede estar vacío."); // 400
-            }
-            categoryService.saveCategory(category);
-            return ResponseEntity.status(HttpStatus.CREATED).body("Categoría creada exitosamente."); // 201
-        } catch (Exception e) {
-            e.printStackTrace();
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body("Error al crear la categoría."); // 500
-        }
-    }
+
 
     // Actualizar una categoría por ID
     @PutMapping("/update/{id}")
