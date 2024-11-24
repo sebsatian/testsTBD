@@ -168,3 +168,31 @@ $function$;
 -- Conceder permisos para ejecutar las funciones al usuario de la base de datos
 GRANT EXECUTE ON FUNCTION generate_user_action_report() TO postgres;
 GRANT EXECUTE ON FUNCTION get_user_logs(BIGINT) TO postgres;
+
+-- Crear la función que actualiza el estado del producto
+CREATE OR REPLACE FUNCTION update_product_status()
+    RETURNS TRIGGER AS $$
+BEGIN
+    -- Verificar si el stock llegó a 0
+    IF NEW.stock = 0 THEN
+        -- Actualizar el estado del producto a "Agotado"
+UPDATE product
+SET product_status = 'Agotado'
+WHERE product_id = NEW.product_id;
+ELSIF NEW.stock > 0 THEN
+        -- Asegurarse de que el estado vuelva a "Disponible" si el stock aumenta
+UPDATE product
+SET product_status = 'Disponible'
+WHERE product_id = NEW.product_id;
+END IF;
+
+    -- Retornar la fila procesada
+RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+-- Crear el trigger que llama a la función
+CREATE TRIGGER trg_update_product_status
+    AFTER UPDATE OF stock ON product -- Se activa después de actualizar el stock
+    FOR EACH ROW
+    EXECUTE FUNCTION update_product_status();
