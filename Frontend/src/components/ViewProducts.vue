@@ -11,7 +11,11 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="product in products" :key="product.product_id" :class="{ 'out-of-stock': product.stock === 0 }">
+        <tr 
+          v-for="product in products" 
+          :key="product.product_id" 
+          :class="{ 'out-of-stock': product.product_status?.toLowerCase() === 'agotado' }"
+        >
           <td>{{ product.product_name }}</td>
           <td>{{ product.stock }}</td>
           <td>{{ formatCurrency(product.price) }}</td>

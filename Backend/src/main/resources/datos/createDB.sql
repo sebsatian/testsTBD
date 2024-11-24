@@ -95,20 +95,23 @@ INSERT INTO order_detail (quantity, price, order_id, product_id) VALUES
 
 -- Consulta para calcular los ingresos por producto agrupados por categoría y porcentaje de ventas
 WITH TotalIncome AS (
-    SELECT SUM(quantity * price) AS total_income
-    FROM order_detail
-),
-     ProductIncome AS (
-         SELECT
-             p.product_id,
-             p.product_name,
-             c.category_name,
-             SUM(od.quantity * od.price) AS product_income
-         FROM order_detail od
-                  JOIN product p ON od.product_id = p.product_id
-                  JOIN category c ON p.category_id = c.category_id
-         GROUP BY p.product_id, p.product_name, c.category_name
-     )
+    SELECT SUM(o.total) AS total_income
+    FROM orders o
+    WHERE o.status != 'Pendiente' -- Solo incluir órdenes completadas
+    ),
+    ProductIncome AS (
+SELECT
+    p.product_id,
+    p.product_name,
+    c.category_name,
+    SUM(od.quantity * od.price) AS product_income
+FROM order_detail od
+    JOIN orders o ON od.order_id = o.order_id
+    JOIN product p ON od.product_id = p.product_id
+    JOIN category c ON p.category_id = c.category_id
+WHERE o.status != 'Pendiente' -- Solo incluir órdenes completadas
+GROUP BY p.product_id, p.product_name, c.category_name
+    )
 SELECT
     pi.category_name,
     pi.product_name,

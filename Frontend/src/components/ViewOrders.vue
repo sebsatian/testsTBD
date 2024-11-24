@@ -36,6 +36,7 @@
               </button>
 
               <button
+                 v-if="order.status.toLowerCase() === 'pendiente'"
                 class="btn btn-danger btn-sm"
                 @click="deleteOrder(order.order_id)"
               >
