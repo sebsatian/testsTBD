@@ -32,6 +32,12 @@
               >
                 Eliminar
               </button>
+              <button
+                class="btn btn-success btn-sm"
+                @click="payOrder(order.order_id)"
+              >
+                Pagar
+              </button>
             </td>
           </tr>
         </tbody>
@@ -81,69 +87,100 @@
   </template>
   
   <script>
-  import OrderService from "@/services/order.service";
-  
-  export default {
-    name: "ViewOrders",
-    data() {
-      return {
-        orders: [], // Lista de órdenes
-        selectedOrderDetails: null, // Detalles de la orden seleccionada
-      };
-    },
-    methods: {
-      async fetchOrders() {
-        try {
-          const clientId = localStorage.getItem("clientId");
-          if (!clientId) {
-            alert("No se encontró el ID del cliente en el localStorage.");
-            return;
-          }
-          const orders = await OrderService.getOrdersByClientId(clientId);
-          this.orders = orders.map((order) => ({
-            ...order,
-            total: order.total || 0,
-          }));
-        } catch (error) {
-          console.error("Error al obtener las órdenes:", error.response?.data || error.message);
-          alert("Hubo un error al cargar las órdenes. Intenta nuevamente más tarde.");
+import OrderService from "@/services/order.service";
+
+export default {
+  name: "ViewOrders",
+  data() {
+    return {
+      orders: [], // Lista de órdenes
+      selectedOrderDetails: null, // Detalles de la orden seleccionada
+    };
+  },
+  methods: {
+    async fetchOrders() {
+      try {
+        const clientId = localStorage.getItem("clientId");
+        if (!clientId) {
+          alert("No se encontró el ID del cliente en el localStorage.");
+          return;
         }
-      },
-      async viewOrderDetails(orderId) {
-        try {
-          const details = await OrderService.getOrderDetailsByOrderId(orderId);
-          this.selectedOrderDetails = details;
-        } catch (error) {
-          console.error("Error al obtener los detalles de la orden:", error.response?.data || error.message);
-          alert("Hubo un error al cargar los detalles de la orden. Intenta nuevamente más tarde.");
-        }
-      },
-      async deleteOrder(orderId) {
-        try {
-          const confirmation = confirm(`¿Estás seguro de que deseas eliminar la orden con ID: ${orderId}?`);
-          if (!confirmation) return;
-  
-          await OrderService.deleteOrderById(orderId);
-          this.fetchOrders(); // Actualizar la lista después de eliminar
-        } catch (error) {
-          console.error("Error al eliminar la orden:", error.response?.data || error.message);
-          alert("Hubo un error al intentar eliminar la orden. Intenta nuevamente más tarde.");
-        }
-      },
-      clearDetails() {
-        this.selectedOrderDetails = null;
-      },
-      formatCurrency(value) {
-        if (value === null || value === undefined) return "$0.00";
-        return `$${value.toFixed(2)}`;
-      },
+        const orders = await OrderService.getOrdersByClientId(clientId);
+        this.orders = orders.map((order) => ({
+          ...order,
+          total: order.total || 0,
+        }));
+      } catch (error) {
+        console.error(
+          "Error al obtener las órdenes:",
+          error.response?.data || error.message
+        );
+        alert("Hubo un error al cargar las órdenes. Intenta nuevamente más tarde.");
+      }
     },
-    mounted() {
-      this.fetchOrders();
+    async viewOrderDetails(orderId) {
+      try {
+        const details = await OrderService.getOrderDetailsByOrderId(orderId);
+        this.selectedOrderDetails = details;
+      } catch (error) {
+        console.error(
+          "Error al obtener los detalles de la orden:",
+          error.response?.data || error.message
+        );
+        alert("Hubo un error al cargar los detalles de la orden. Intenta nuevamente más tarde.");
+      }
     },
-  };
-  </script>
-  
+    async deleteOrder(orderId) {
+      try {
+        const confirmation = confirm(
+          `¿Estás seguro de que deseas eliminar la orden con ID: ${orderId}?`
+        );
+        if (!confirmation) return;
+
+        await OrderService.deleteOrderById(orderId);
+        this.fetchOrders(); // Actualizar la lista después de eliminar
+      } catch (error) {
+        console.error(
+          "Error al eliminar la orden:",
+          error.response?.data || error.message
+        );
+        alert(
+          "Hubo un error al intentar eliminar la orden. Intenta nuevamente más tarde."
+        );
+      }
+    },
+    async payOrder(orderId) {
+      try {
+        const confirmation = confirm(
+          `¿Estás seguro de que deseas pagar la orden con ID: ${orderId}?`
+        );
+        if (!confirmation) return;
+
+        await OrderService.payOrder(orderId); // Llamada al servicio para procesar el pago
+        alert("Orden pagada correctamente.");
+        this.fetchOrders(); // Actualizar la lista después de pagar
+      } catch (error) {
+        console.error(
+          "Error al pagar la orden:",
+          error.response?.data || error.message
+        );
+        alert("Hubo un error al intentar pagar la orden. Intenta nuevamente más tarde.");
+      }
+    },
+    clearDetails() {
+      this.selectedOrderDetails = null;
+    },
+    formatCurrency(value) {
+      if (value === null || value === undefined) return "$0.00";
+      return `$${value.toFixed(2)}`;
+    },
+  },
+  mounted() {
+    this.fetchOrders();
+  },
+};
+</script>
+
   <style scoped>
 /* Estilo general para contenedor */
 .orders-container {

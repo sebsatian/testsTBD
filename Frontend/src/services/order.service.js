@@ -86,6 +86,21 @@ class OrderService {
       throw error;
     }
   }
+
+  async payOrder(orderId) {
+    try {
+      const response = await axios.put(`${API_URL}/order/update-stock/${orderId}`, null, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("jwtToken")}`,
+        },
+      });
+      console.log("Respuesta del backend al pagar la orden:", response.data);
+    } catch (error) {
+      console.error("Error al pagar la orden:", error.response?.data || error.message);
+      throw error;
+    }
+  }
+  
   
 }
 

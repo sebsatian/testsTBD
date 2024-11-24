@@ -53,18 +53,16 @@ public class OrderService {
     }
 
     public void updateStock(Long orderId) {
-        // Obtener detalles de la orden
-        List<OrderDetailEntity> orderDetails = orderDetailRepository.findOrderDetailByOrderId(orderId);
-
-        for (OrderDetailEntity detail : orderDetails) {
-            Long productId = detail.getProduct_id();
-            int quantity = detail.getQuantity();
-
-            // Actualizar el stock del producto
-            productRepository.updateProductStock(productId, quantity);
+        try {
+            // Llama al repositorio para actualizar el stock de todos los productos relacionados con la orden
+            productRepository.updateProductStock(orderId);
+        } catch (IllegalStateException e) {
+            // Maneja el caso donde el stock es insuficiente
+            throw new RuntimeException("Error al actualizar el stock: " + e.getMessage(), e);
+        } catch (Exception e) {
+            // Maneja cualquier otro error inesperado
+            throw new RuntimeException("Error inesperado al actualizar el stock: " + e.getMessage(), e);
         }
     }
-
-
 
 }

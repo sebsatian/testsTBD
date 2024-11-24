@@ -62,6 +62,7 @@ public class ClientRepositoryImp implements ClientRepository {
                     .addParameter("password", client.getPassword())
                     .addParameter("phone_number", client.getPhone_number())
                     .executeUpdate();
+            con.commit();
         } catch (Exception e) {
             e.printStackTrace();
         }

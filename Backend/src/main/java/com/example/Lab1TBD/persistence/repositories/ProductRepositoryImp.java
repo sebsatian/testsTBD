@@ -166,14 +166,68 @@ public class ProductRepositoryImp implements ProductRepository {
     }
 
     @Override
-    public void updateProductStock(Long productId, int quantity) {
+    public void updateProductStock(Long orderId) {
         try (org.sql2o.Connection con = sql2o.open()) {
-            con.createQuery("UPDATE product SET stock = stock - :quantity WHERE product_id = :productId")
-                    .addParameter("quantity", quantity)
-                    .addParameter("productId", productId)
-                    .executeUpdate();
+            // Verificar si hay suficiente stock para todos los productos en la orden
+            String verifyStockQuery = """
+        SELECT COUNT(*)
+        FROM order_detail od
+        JOIN product p ON od.product_id = p.product_id
+        WHERE od.order_id = :orderId
+          AND od.quantity > p.stock
+        """;
+
+            Long count = con.createQuery(verifyStockQuery)
+                    .addParameter("orderId", orderId)
+                    .executeScalar(Long.class);
+
+            // Si algún producto no tiene suficiente stock, lanzamos una excepción
+            if (count > 0) {
+                throw new IllegalStateException("El stock es insuficiente para uno o más productos de la orden.");
+            }
+
+            // Actualizar el stock de todos los productos relacionados con la orden sin usar la cláusula FROM
+            String updateStockQuery = """
+        UPDATE product
+        SET stock = stock - (
+            SELECT od.quantity
+            FROM order_detail od
+            WHERE od.product_id = product.product_id
+              AND od.order_id = :orderId
+        )
+        WHERE product_id IN (
+            SELECT product_id
+            FROM order_detail
+            WHERE order_id = :orderId
+        )
+        """;
+
+            int rowsUpdated = con.createQuery(updateStockQuery)
+                    .addParameter("orderId", orderId)
+                    .executeUpdate()
+                    .getResult();
+
+            if (rowsUpdated == 0) {
+                throw new IllegalStateException("No se pudo actualizar el stock. Verifica el stock disponible.");
+            }
         } catch (Exception e) {
             e.printStackTrace();
+            throw new RuntimeException("Error al actualizar el stock: " + e.getMessage());
+        }
+    }
+
+
+
+    @Override
+    public int getProductStockById(Long productId) {
+        try (org.sql2o.Connection con = sql2o.open()) {
+            String query = "SELECT stock FROM product WHERE product_id = :productId";
+            return con.createQuery(query)
+                    .addParameter("productId", productId)
+                    .executeScalar(Integer.class);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException("Error al obtener el stock del producto: " + productId);
         }
     }
 

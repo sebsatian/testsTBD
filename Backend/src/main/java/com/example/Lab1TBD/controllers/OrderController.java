@@ -70,16 +70,19 @@ public class OrderController {
         }
     }
 
-    @PostMapping("/update-stock/{orderId}")
+    @PutMapping("/update-stock/{orderId}")
     public ResponseEntity<String> updateStock(@PathVariable Long orderId) {
         try {
             orderService.updateStock(orderId);
             return ResponseEntity.ok("Stock actualizado correctamente.");
+        } catch (IllegalStateException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error al actualizar el stock.");
         }
     }
+
 
 
 
