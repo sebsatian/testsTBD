@@ -63,6 +63,9 @@ public class AuthController {
                         .body("Usuario no encontrado.");
             }
 
+            // Registrar el login en la tabla audit_log
+            clientService.logUserLogin(client.getClient_id());
+
             // Construir la respuesta con el token y la clientId
             Map<String, Object> response = new HashMap<>();
             response.put("token", jwt);
@@ -95,10 +98,12 @@ public class AuthController {
                     registerDto.getEmail(),
                     passwordEncoder.encode(registerDto.getPassword()),// Encriptar contraseña
                     null
-
-
             );
             clientRepository.saveClient(newClient);
+
+            // Obtener el usuario recién creado para registrar la acción
+            ClientEntity createdClient = clientService.getClientByEmail(registerDto.getEmail());
+            clientService.logUserRegistration(createdClient.getClient_id());
 
             return ResponseEntity.status(HttpStatus.CREATED)
                     .body("Usuario registrado exitosamente.");

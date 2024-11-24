@@ -97,4 +97,40 @@ public class ClientRepositoryImp implements ClientRepository {
             e.printStackTrace();
         }
     }
+    @Override
+    public void logUserLogin(Long userId) {
+        String sql = """
+        INSERT INTO audit_log (user_id, action_type, table_name, executed_query, action_timestamp)
+        VALUES (:userId, 'Login', 'audit_log', 'Login', CURRENT_TIMESTAMP)
+    """;
+
+        try (org.sql2o.Connection con = sql2o.open()) {
+            con.createQuery(sql)
+                    .addParameter("userId", userId)
+                    .executeUpdate();
+        } catch (Exception e) {
+            throw new RuntimeException("Error al registrar el login en audit_log: " + e.getMessage(), e);
+        }
+    }
+
+    @Override
+    public void logUserRegistration(Long userId) {
+        String sql = """
+        INSERT INTO audit_log (user_id, action_type, table_name, executed_query, action_timestamp)
+        VALUES (:userId, 'Register', 'audit_log', 'Register', CURRENT_TIMESTAMP)
+    """;
+
+        try (org.sql2o.Connection con = sql2o.open()) {
+            con.createQuery(sql)
+                    .addParameter("userId", userId)
+                    .executeUpdate();
+        } catch (Exception e) {
+            throw new RuntimeException("Error al registrar el registro en audit_log: " + e.getMessage(), e);
+        }
+    }
+
+
+
+
+
 }

@@ -209,9 +209,9 @@ export default {
       this.selectedOrderDetails = null;
     },
     formatCurrency(value) {
-      if (value === null || value === undefined) return "$0.00";
-      return `$${value.toFixed(2)}`;
-    },
+  if (value === null || value === undefined) return "$0";
+  return `$${value.toLocaleString("es-CL", { minimumFractionDigits: 0 })}`;
+},
   },
   mounted() {
     this.fetchOrders();

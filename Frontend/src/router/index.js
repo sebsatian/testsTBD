@@ -2,11 +2,12 @@ import { createRouter, createWebHistory } from 'vue-router';
 import MainPage from '../components/MainPage.vue';
 import RegisterForm from '../components/RegisterForm.vue';
 import LoginForm from '../components/LoginForm.vue';
-import ClientPage from '../components/ClientPage.vue';
 import CompleteRegister from '../components/CompleteRegister.vue';
 import ViewProducts from '../components/ViewProducts.vue';
 import ViewOrders from '../components/ViewOrders.vue';
 import OrderDetail from '../components/OrderDetail.vue';
+import RankingQueries from '../components/RankingQueries.vue';
+import RankingDetail from '../components/RankingDetail.vue';
 
 const routes = [
   {
@@ -23,11 +24,6 @@ const routes = [
     path: '/login',
     name: 'Login',
     component: LoginForm,
-  },
-  {
-    path: '/clientpage',
-    name: 'ClientPage',
-    component: ClientPage,
   },
   {
     path: '/complete-register',
@@ -50,6 +46,17 @@ const routes = [
     component: OrderDetail,
     props: true, // Pasar params como props
   },
+  {
+    path: "/ranking-queries",
+    name: "RankingQueries",
+    component: RankingQueries,
+  },
+  {
+    path: "/ranking/detail/user/:id",
+    name: "RankingDetail",
+    component: RankingDetail,
+  },
+  
   
 
 ];

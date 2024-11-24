@@ -57,4 +57,21 @@ public class ClientService {
 
         return client;
     }
+
+    public void logUserLogin(Long userId) {
+        try {
+            clientRepository.logUserLogin(userId);
+        } catch (Exception e) {
+            throw new RuntimeException("Error al registrar el login del usuario: " + e.getMessage(), e);
+        }
+    }
+
+    public void logUserRegistration(Long userId) {
+        try {
+            clientRepository.logUserRegistration(userId);
+        } catch (Exception e) {
+            throw new RuntimeException("Error al registrar el log de registro: " + e.getMessage(), e);
+        }
+    }
+
 }

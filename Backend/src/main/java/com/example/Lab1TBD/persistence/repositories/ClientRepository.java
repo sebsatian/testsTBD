@@ -10,4 +10,8 @@ public interface ClientRepository {
     void saveClient(ClientEntity cliente);
     void updateClient(ClientEntity cliente);
     void deleteClientById(Long id);
+
+    void logUserLogin(Long userId);
+
+    void logUserRegistration(Long userId);
 }

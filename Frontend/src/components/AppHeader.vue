@@ -2,10 +2,13 @@
   <header>
     <nav>
       <button @click="goHome" class="nav-button">Inicio</button>
-      <button @click="goToTaskMenu" class="nav-button">Menú de cliente</button>
+      <button @click="goToBuy" class="nav-button">Ver productos</button>
       <button @click="goToTasks" class="nav-button">Mis Órdenes</button>
+      <button @click="goToRanking" class="nav-button">Ver Top Globales</button>
     </nav>
     <h1 class="centered-title">Gestor de Inventario</h1>
+    
+
     <button @click="logout" class="logout-button">Cerrar Sesión</button>
   </header>
 </template>
@@ -19,17 +22,22 @@ export default {
     async goHome() {
       this.$router.push("/"); // Redirige a la página de inicio
     },
-    async goToTaskMenu() {
-      const isValid = await validateSession(); // Llama a la función para validar la sesión
+    async goToBuy() {
+      const isValid = await validateSession(); // Valida la sesión
       if (isValid) {
-        this.$router.push("/clientpage"); // Redirige al menú de tareas
+        this.$router.push("/products"); // Redirige al menú de cliente
       }
     },
     async goToTasks() {
-      const isValid = await validateSession(); // Llama a la función para validar la sesión
+      const isValid = await validateSession(); // Valida la sesión
       if (isValid) {
         this.$router.push("/clientpage/orders");
-
+      }
+    },
+    async goToRanking() {
+      const isValid = await validateSession(); // Valida la sesión
+      if (isValid) {
+        this.$router.push("/ranking-queries"); // 
       }
     },
     logout() {
@@ -40,6 +48,7 @@ export default {
   },
 };
 </script>
+
 
 <style scoped>
 header {
