@@ -25,6 +25,28 @@
           required
         >
       </div>
+      <div class="mb-3">
+        <label for="address" class="form-label">Dirección</label>
+        <input 
+          type="text" 
+          class="form-control" 
+          id="address" 
+          v-model="address" 
+          placeholder="Ingresa tu dirección" 
+          required
+        >
+      </div>
+      <div class="mb-3">
+        <label for="phone_number" class="form-label">Número de teléfono</label>
+        <input 
+          type="tel" 
+          class="form-control" 
+          id="phone_number" 
+          v-model="phone_number" 
+          placeholder="Ingresa tu número telefónico" 
+          required
+        >
+      </div>
       
       <div class="mb-3">
         <label for="password" class="form-label">Contraseña</label>
@@ -64,6 +86,8 @@ export default {
     return {
       name: '',
       email: '',
+      address: '',
+      phone_number: '',
       password: '',
       confirmPassword: ''
     };
@@ -78,7 +102,7 @@ export default {
 
       try {
         // Llamada al servicio de registro
-        const response = await registerService.register(this.name, this.email, this.password);
+        const response = await registerService.register(this.name, this.email,this.address, this.phone_number, this.password);
         console.log('Usuario registrado:', response);
         alert('Usuario registrado con éxito. Inicia sesión para continuar.');
 

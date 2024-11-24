@@ -126,7 +126,7 @@ export default {
           "Error al obtener las órdenes:",
           error.response?.data || error.message
         );
-        alert("Hubo un error al cargar las órdenes. Intenta nuevamente más tarde.");
+        alert("Uno o más productos de tu orden se quedaron sin stock, crea tu orden nuevamente.");
       }
     },
     async viewOrderDetails(orderId) {
@@ -202,7 +202,7 @@ export default {
           "Error al pagar la orden:",
           error.response?.data || error.message
         );
-        alert("Hubo un error al intentar pagar la orden. Intenta nuevamente más tarde.");
+        alert("Uno o más productos de tu orden se quedaron sin stock, crea tu orden nuevamente.");
       }
     },
     clearDetails() {

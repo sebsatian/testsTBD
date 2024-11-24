@@ -111,7 +111,7 @@ EXECUTE FUNCTION log_table_changes();
 
 -- Trigger para la tabla "orders"
 CREATE TRIGGER audit_orders
-    AFTER INSERT OR UPDATE OR DELETE
+    AFTER INSERT OR DELETE
     ON orders
     FOR EACH ROW
 EXECUTE FUNCTION log_table_changes();

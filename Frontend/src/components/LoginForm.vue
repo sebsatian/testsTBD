@@ -50,7 +50,7 @@ export default {
         console.log("Sesión Iniciada:", response);
         alert("Sesión Iniciada");
 
-        this.$router.push("/clientpage");
+        this.$router.push("/products");
       } catch (error) {
         console.error("Error al iniciar sesión:", error.response?.data || error.message);
         alert("Error al iniciar sesión. Por favor, verifica tus credenciales.");

@@ -57,10 +57,12 @@ export default {
     async fetchProducts() {
       try {
         const fetchedProducts = await ProductService.getAllProducts();
-        this.products = fetchedProducts.map((product) => ({
-          ...product,
-          quantity: 0, // Inicializar la cantidad a comprar en 0
-        }));
+        this.products = fetchedProducts
+          .map((product) => ({
+            ...product,
+            quantity: 0, // Inicializar la cantidad a comprar en 0
+          }))
+          .sort((a, b) => a.product_name.localeCompare(b.product_name)); // Ordenar alfabéticamente por nombre
       } catch (error) {
         console.error("Error al obtener los productos:", error.response?.data || error.message);
         alert("Error al cargar los productos. Intenta nuevamente más tarde.");

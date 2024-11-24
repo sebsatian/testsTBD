@@ -2,7 +2,6 @@ import { createRouter, createWebHistory } from 'vue-router';
 import MainPage from '../components/MainPage.vue';
 import RegisterForm from '../components/RegisterForm.vue';
 import LoginForm from '../components/LoginForm.vue';
-import CompleteRegister from '../components/CompleteRegister.vue';
 import ViewProducts from '../components/ViewProducts.vue';
 import ViewOrders from '../components/ViewOrders.vue';
 import OrderDetail from '../components/OrderDetail.vue';
@@ -24,11 +23,6 @@ const routes = [
     path: '/login',
     name: 'Login',
     component: LoginForm,
-  },
-  {
-    path: '/complete-register',
-    name: 'CompleteRegister',
-    component: CompleteRegister,
   },
   {
     path: "/products",

@@ -93,11 +93,11 @@ public class AuthController {
             // Crear nuevo usuario
             ClientEntity newClient = new ClientEntity(
                     null, // ID autogenerado
-                    registerDto.getName(),
-                    null,
-                    registerDto.getEmail(),
-                    passwordEncoder.encode(registerDto.getPassword()),// Encriptar contraseña
-                    null
+                    registerDto.getName(), // Nombre del usuario
+                    registerDto.getAddress(), // Dirección del usuario
+                    registerDto.getEmail(), // Email
+                    passwordEncoder.encode(registerDto.getPassword()), // Encriptar contraseña
+                    registerDto.getPhone_number() // Número de teléfono
             );
             clientRepository.saveClient(newClient);
 
