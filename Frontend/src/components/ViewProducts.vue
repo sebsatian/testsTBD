@@ -11,7 +11,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="product in products" :key="product.product_id">
+        <tr v-for="product in products" :key="product.product_id" :class="{ 'out-of-stock': product.stock === 0 }">
           <td>{{ product.product_name }}</td>
           <td>{{ product.stock }}</td>
           <td>{{ formatCurrency(product.price) }}</td>
@@ -53,7 +53,6 @@ export default {
     };
   },
   methods: {
-    
     async fetchProducts() {
       try {
         const fetchedProducts = await ProductService.getAllProducts();
@@ -86,10 +85,6 @@ export default {
         return;
       }
 
-      // Calcular el total
-      //const total = selectedProducts.reduce((acc, item) => acc + item.quantity * item.price, 0);
-
-      // Convertir client_id a Long
       const clientId = parseInt(localStorage.getItem("clientId"), 10);
 
       const orderData = {
@@ -100,12 +95,10 @@ export default {
       };
 
       try {
-        // Crear la orden y obtener el ID generado
         const orderId = await OrderService.createOrder(orderData);
 
         console.log("ID de la orden creada:", orderId);
 
-        // Crear detalles de la orden para cada producto seleccionado
         for (const product of selectedProducts) {
           const orderDetail = {
             order_id: orderId,
@@ -114,7 +107,7 @@ export default {
             price: product.price,
           };
 
-          await OrderService.createOrderDetail(orderDetail); // Llamar al servicio de detalles
+          await OrderService.createOrderDetail(orderDetail);
         }
         const newStatus = "Pendiente"; 
         await OrderService.updateOrderStatus(orderId, newStatus);
@@ -127,9 +120,9 @@ export default {
       }
     },
     formatCurrency(value) {
-  if (value === null || value === undefined) return "$0";
-  return `$${value.toLocaleString("es-CL", { minimumFractionDigits: 0 })}`;
-},
+      if (value === null || value === undefined) return "$0";
+      return `$${value.toLocaleString("es-CL", { minimumFractionDigits: 0 })}`;
+    },
   },
   mounted() {
     this.fetchProducts();
@@ -178,5 +171,10 @@ h2 {
 .btn-success {
   background-color: #28a745;
   border-color: #28a745;
+}
+
+.out-of-stock {
+  background-color: #f5c6cb !important; /* Fondo rojo claro */
+  color: #721c24 !important; /* Texto oscuro para mejor contraste */
 }
 </style>
