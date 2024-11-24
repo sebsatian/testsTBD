@@ -13,4 +13,6 @@ public interface OrderRepository {
     Long saveOrder(OrderEntity order);
     void updateOrder(OrderEntity order);
     void deleteOrderById(Long order_id);
+
+    void updateOrderStatus(Long orderId, String status);
 }

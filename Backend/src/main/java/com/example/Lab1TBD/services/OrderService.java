@@ -64,5 +64,13 @@ public class OrderService {
             throw new RuntimeException("Error inesperado al actualizar el stock: " + e.getMessage(), e);
         }
     }
+    public void updateOrderStatus(Long orderId, String status) {
+        // Puedes agregar validaciones aquí si es necesario
+        if (status == null || status.isEmpty()) {
+            throw new IllegalArgumentException("El estado no puede estar vacío.");
+        }
+        orderRepository.updateOrderStatus(orderId, status);
+    }
+
 
 }

@@ -100,6 +100,41 @@ class OrderService {
       throw error;
     }
   }
+  async getProductById(productId) {
+    try {
+      const response = await axios.get(`${API_URL}/product/search/id/${productId}`, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("jwtToken")}`,
+        },
+      });
+      return response.data;
+    } catch (error) {
+      console.error(`Error al obtener el producto con ID ${productId}:`, error.response?.data || error.message);
+      throw error;
+    }
+  }
+  async updateOrderStatus(orderId, status) {
+    try {
+      const response = await axios.put(
+        `${API_URL}/order/update-status/${orderId}`,
+        { status },
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("jwtToken")}`,
+          },
+        }
+      );
+      console.log("Respuesta del backend al actualizar el estado:", response.data);
+      return response.data;
+    } catch (error) {
+      console.error("Error al actualizar el estado de la orden:", error.response?.data || error.message);
+      throw error;
+    }
+  }
+  
+  
   
   
 }

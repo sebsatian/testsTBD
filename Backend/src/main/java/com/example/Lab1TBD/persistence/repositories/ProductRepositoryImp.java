@@ -167,7 +167,7 @@ public class ProductRepositoryImp implements ProductRepository {
 
     @Override
     public void updateProductStock(Long orderId) {
-        try (org.sql2o.Connection con = sql2o.open()) {
+        try (org.sql2o.Connection con = sql2o.beginTransaction()) {
             // Verificar si hay suficiente stock para todos los productos en la orden
             String verifyStockQuery = """
         SELECT COUNT(*)
@@ -186,7 +186,7 @@ public class ProductRepositoryImp implements ProductRepository {
                 throw new IllegalStateException("El stock es insuficiente para uno o más productos de la orden.");
             }
 
-            // Actualizar el stock de todos los productos relacionados con la orden sin usar la cláusula FROM
+            // Actualizar el stock de todos los productos relacionados con la orden
             String updateStockQuery = """
         UPDATE product
         SET stock = stock - (
@@ -210,11 +210,25 @@ public class ProductRepositoryImp implements ProductRepository {
             if (rowsUpdated == 0) {
                 throw new IllegalStateException("No se pudo actualizar el stock. Verifica el stock disponible.");
             }
+
+            // Insertar el orderId en la tabla paid_orders
+            String insertPaidOrderQuery = """
+        INSERT INTO paid_orders (order_id)
+        VALUES (:orderId)
+        """;
+
+            con.createQuery(insertPaidOrderQuery)
+                    .addParameter("orderId", orderId)
+                    .executeUpdate();
+
+            // Confirmar la transacción
+            con.commit();
         } catch (Exception e) {
             e.printStackTrace();
             throw new RuntimeException("Error al actualizar el stock: " + e.getMessage());
         }
     }
+
 
 
 

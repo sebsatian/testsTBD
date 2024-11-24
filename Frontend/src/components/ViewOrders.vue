@@ -21,11 +21,20 @@
             <td>{{ order.status }}</td>
             <td>
               <button
+                v-if="order.status.toLowerCase() === 'pendiente'"
                 class="btn btn-primary btn-sm me-2"
                 @click="viewOrderDetails(order.order_id)"
               >
                 Ver Detalles
               </button>
+              <button
+                v-else
+                class="btn btn-success btn-sm me-2"
+                @click="viewOrderDetails(order.order_id)"
+              >
+                Ver Boleta
+              </button>
+
               <button
                 class="btn btn-danger btn-sm"
                 @click="deleteOrder(order.order_id)"
@@ -33,11 +42,13 @@
                 Eliminar
               </button>
               <button
+                v-if="order.status.toLowerCase() === 'pendiente'"
                 class="btn btn-success btn-sm"
                 @click="payOrder(order.order_id)"
               >
                 Pagar
               </button>
+
             </td>
           </tr>
         </tbody>
@@ -120,8 +131,32 @@ export default {
     },
     async viewOrderDetails(orderId) {
       try {
+        // Obtener los detalles de la orden
         const details = await OrderService.getOrderDetailsByOrderId(orderId);
-        this.selectedOrderDetails = details;
+
+        // Realizar solicitudes para obtener el nombre del producto por cada product_id
+        const detailsWithProductNames = await Promise.all(
+          details.map(async (detail) => {
+            try {
+              const product = await OrderService.getProductById(detail.product_id); // Llamada al nuevo método
+              return {
+                ...detail,
+                product_name: product.product_name, // Agregar product_name al detalle
+              };
+            } catch (error) {
+              console.error(`Error al obtener el producto con ID ${detail.product_id}:`, error.message);
+              return {
+                ...detail,
+                product_name: "Nombre no disponible", // Valor predeterminado en caso de error
+              };
+            }
+          })
+        );
+
+        console.log("Detalles de la orden con nombres de productos:", detailsWithProductNames);
+
+        // Guardar los detalles con los nombres de productos
+        this.selectedOrderDetails = detailsWithProductNames;
       } catch (error) {
         console.error(
           "Error al obtener los detalles de la orden:",
@@ -129,7 +164,10 @@ export default {
         );
         alert("Hubo un error al cargar los detalles de la orden. Intenta nuevamente más tarde.");
       }
-    },
+    }
+
+
+,
     async deleteOrder(orderId) {
       try {
         const confirmation = confirm(
@@ -275,6 +313,73 @@ button.me-2 {
   justify-content: flex-end;
   padding: 10px;
 }
+
+/* Tabla en el modal */
+.modal-body .table {
+  border-collapse: collapse;
+  width: 100%;
+  margin-bottom: 0;
+  background-color: #ffffff;
+  font-size: 14px; /* Ajuste de tamaño de fuente */
+  font-family: 'Arial', sans-serif; /* Fuente clara y legible */
+}
+
+.modal-body .table th, 
+.modal-body .table td {
+  text-align: center;
+  vertical-align: middle;
+  padding: 10px; /* Ajuste del espaciado */
+  border: 1px solid #dee2e6;
+}
+
+.modal-body .table th {
+  background-color: #0056b3; /* Azul más profesional */
+  color: white; /* Texto blanco */
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 0.05em; /* Espaciado entre letras */
+  font-size: 14px; /* Tamaño uniforme con celdas */
+}
+
+.modal-body .table tbody tr:nth-child(odd) {
+  background-color: #f8f9fa; /* Gris claro para filas alternadas */
+}
+
+.modal-body .table tbody tr:nth-child(even) {
+  background-color: #ffffff; /* Blanco */
+}
+
+.modal-body .table td {
+  font-size: 14px;
+  color: #212529; /* Texto oscuro */
+  text-align: center;
+}
+
+.modal-body .table td:first-child {
+  text-align: left; /* Alinear el nombre del producto a la izquierda */
+  font-weight: 600; /* Resaltar nombres de productos */
+}
+
+.modal-body .table th:first-child {
+  text-align: left;
+}
+
+/* Ajuste del botón de cerrar */
+.modal-footer button {
+  font-size: 14px;
+  padding: 8px 16px;
+  border-radius: 5px;
+  background-color: #6c757d;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+.modal-footer button:hover {
+  background-color: #5a6268;
+}
+
+
 </style>
 
   

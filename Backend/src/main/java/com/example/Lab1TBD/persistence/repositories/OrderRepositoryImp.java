@@ -108,5 +108,20 @@ public class OrderRepositoryImp implements OrderRepository {
             e.printStackTrace();
         }
     }
+    @Override
+    public void updateOrderStatus(Long orderId, String status) {
+        String query = """
+            UPDATE orders
+            SET status = :status
+            WHERE order_id = :orderId
+        """;
+
+        try (org.sql2o.Connection con = sql2o.open()) {
+            con.createQuery(query)
+                    .addParameter("orderId", orderId)
+                    .addParameter("status", status)
+                    .executeUpdate();
+        }
+    }
 
 }

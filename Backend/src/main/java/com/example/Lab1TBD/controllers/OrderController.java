@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/order")
@@ -80,6 +81,28 @@ public class OrderController {
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error al actualizar el stock.");
+        }
+    }
+
+    @PutMapping("/update-status/{id}")
+    public ResponseEntity<String> updateOrderStatus(
+            @PathVariable("id") Long orderId,
+            @RequestBody Map<String, String> requestBody) {
+        try {
+            // Obtener el nuevo estado desde el cuerpo de la solicitud
+            String status = requestBody.get("status");
+            if (status == null) {
+                return ResponseEntity.badRequest().body("El estado no fue proporcionado.");
+            }
+
+            // Actualizar el estado de la orden
+            orderService.updateOrderStatus(orderId, status);
+            return ResponseEntity.ok("Estado de la orden actualizado correctamente.");
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Error al actualizar el estado de la orden: " + e.getMessage());
         }
     }
 

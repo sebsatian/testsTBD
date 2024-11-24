@@ -53,6 +53,7 @@ export default {
     };
   },
   methods: {
+    
     async fetchProducts() {
       try {
         const fetchedProducts = await ProductService.getAllProducts();
@@ -84,15 +85,15 @@ export default {
       }
 
       // Calcular el total
-      const total = selectedProducts.reduce((acc, item) => acc + item.quantity * item.price, 0);
+      //const total = selectedProducts.reduce((acc, item) => acc + item.quantity * item.price, 0);
 
       // Convertir client_id a Long
       const clientId = parseInt(localStorage.getItem("clientId"), 10);
 
       const orderData = {
         date: new Date().toISOString().slice(0, 19).replace("T", " "),
-        status: "pendiente",
-        total: total,
+        status: "zzz",
+        total: 0,
         client_id: clientId,
       };
 
@@ -113,6 +114,8 @@ export default {
 
           await OrderService.createOrderDetail(orderDetail); // Llamar al servicio de detalles
         }
+        const newStatus = "Pendiente"; 
+        await OrderService.updateOrderStatus(orderId, newStatus);
 
         alert("Orden y detalles creados exitosamente.");
         this.$router.push("/clientpage/orders"); // Redirigir a la página de órdenes
