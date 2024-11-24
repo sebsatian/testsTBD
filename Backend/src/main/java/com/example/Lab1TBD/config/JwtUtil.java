@@ -13,7 +13,7 @@ import java.util.Date;
 public class JwtUtil {
 
     // Clave secreta y algoritmo
-    private static final String SECRET = "yo"; // Cambiar por una clave más segura en producción
+    private static final String SECRET = "yo";
     private static final Algorithm ALGORITHM = Algorithm.HMAC256(SECRET);
 
     // Método para crear un JWT
